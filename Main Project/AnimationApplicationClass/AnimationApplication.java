@@ -1,17 +1,14 @@
-	// February 3, 2018
-	
-	// By Mark Tremblay
-	
-	// 
-	
-  /** 
-	*Version 27_2 Feb 3rd
-	* 1. Fixed a logic error in delete methods where it was possible to
-	*	 decrement numActiveObject variables below 0 by using the method
-	*	 on null indexes.
-	* 2. Fixed another error in delete methods where you could specify an
-	* 	 index out of range without warning.
-	*/
+// By Mark Tremblay
+
+// 
+
+import java.util.Arrays;
+
+/**
+Version 27_3 February 4th
+1. added stepThroughActive method to retrieve indexes
+   of active objects and put them in a list.
+*/
 
 public class AnimationApplication
 {
@@ -167,6 +164,7 @@ public class AnimationApplication
 			Obstacle obstacleObject = new Obstacle();
 			numActiveObstacles++; 				  
 			addToActiveObstacleList(obstacleObject);
+			
 			// NOTE: Since obstacleObject is local to this method,
 			// when this method is complete the only reference
 			// to the new Obstacle object is the index we set it to in the
@@ -375,7 +373,7 @@ public class AnimationApplication
 	}
 	
 	/** 
-	  *Returns an integer corresponding to the size of the activeObstacleList
+	  *Returns an integer corresponding to the size of the activeObstacleList.
 	  */
 	public int activeObstacleLength()
 	{
@@ -398,27 +396,103 @@ public class AnimationApplication
 		return MAX_ACTIVE_PLAYERS;
 	}
 	
+	/**
+	  * Steps through any activeObjectList given as a String
+      *	argument and returns a list of the indexes which are not null
+	  * (the ones which are active). An ERROR message appears
+	  * and system exits if you try to step through a list with 
+	  * only null elements. Can be used with getPlayer(), getObstacle()
+      *	and getCollectible() to get access to active objects by generating 
+	  * a list of active indexes corresponding to one of the activeObjectLists 
+	  * and using those indexes as arguments. Valid arguments for this method 
+	  * include "Obstacle", "Player", and "Collectible". Case matters.
+	  */
+	public int[] stepThroughActive(String whichList)
+	{
+		Object[] objectList;
+		objectList = new Object[0]; // Array size is arbitrary just need to initialize.
+		
+		if(whichList.equals("Player"))
+			objectList = activePlayerList;
+		
+		else if(whichList.equals("Obstacle"))
+			objectList = activeObstacleList;
+			
+		else if(whichList.equals("Collectible"))
+			objectList = activeCollectibleList;
+		
+		else
+		{
+			System.out.println("ERROR: Please enter a valid String argument for");
+			System.out.println("the stepThroughActive method: " + "'" + whichList + "'");
+			System.out.println("is not a valid argument.");
+			System.exit(0);
+		}
+			
+		int arraySize = 0;
+		int[] activeIndexList;
+		int activeIndexIndex = 0;
+		
+		// First we'll use a loop to check how many indexes
+		// are actually active so we can set size of int[]
+		// to store indexes.
+		for(int objectIndex = 0; objectIndex < objectList.length; objectIndex++)
+		{
+			if(objectList[objectIndex]!=null)
+			{
+				arraySize++;
+			}
+		}
+		
+		activeIndexList = new int[arraySize];
+		
+		// Make sure there is at least one active object.
+		if(arraySize <= 0)
+		{
+			System.out.println("ERROR: Tried to step through list with only");
+			System.out.println("null indexes while using stepThroughActive()");
+			System.exit(0);
+		}
+		
+		// Now that we have the correct array size we'll run
+		// through the object list again, but append the indexes
+		// for active objects into the activeIndexList.
+		for(int objectIndex = 0; objectIndex < objectList.length; objectIndex++)
+		{
+			if(objectList[objectIndex]!=null)
+			{
+				activeIndexList[activeIndexIndex] = objectIndex;
+				activeIndexIndex++;
+			}
+		}
+
+		return activeIndexList;
+	}
+	
 	public static void main(String[]args)
 	{
 		AnimationApplication gameEngine = new AnimationApplication();
 		
-		gameEngine.makePlayer(0,10); 
-		Player playerOne = gameEngine.getPlayer(0); // NOTE: Make sure to clear this reference too if you delete player.
-		gameEngine.makeObstacle(30,10); // So we have at least one obstacle when game starts.
+		gameEngine.makeCollectible(0,10); 
+		gameEngine.makeCollectible(0,10);
+		gameEngine.makeCollectible(0,10);
 		
-		boolean gameOver = (gameEngine.numActivePlayers < 0);
-	
-		while(!(gameOver))
-		{				
-			gameEngine.makeCollectible(0,0); // To test to see if it appears in list.
-			gameEngine.printActiveObjectList("Player");
-			gameEngine.printActiveObjectList("Obstacle");
-			gameEngine.printActiveObjectList("Collectible");
-			
-			gameEngine.registerCollisionPlayer("Collectible");
-			gameEngine.registerCollisionPlayer("Obstacle");
-			
-			gameOver = true;
-		}
+		gameEngine.makeObstacle(0,10);
+		gameEngine.makeObstacle(0,10);
+		gameEngine.makeObstacle(0,10);
+		
+		gameEngine.makePlayer(0,10);
+		gameEngine.makePlayer(0,10);
+		gameEngine.makePlayer(0,10);
+		
+		gameEngine.deleteCollectible(1);
+		gameEngine.deletePlayer(1);
+		gameEngine.deletePlayer(0);
+		gameEngine.deleteObstacle(1);
+		
+		int[] activeObjectIndex = gameEngine.stepThroughActive("Player");
+		
+		System.out.println("");
+		System.out.println( Arrays.toString(activeObjectIndex) );
 	}
 }
