@@ -144,3 +144,10 @@ ________________________________________________________________________________
 	* 2. Fixed another error in delete methods where you could specify an
 	* 	 index out of range without warning.
 	*/
+
+______________________________________________________________________________________________________________	
+/**
+Version 27_3 February 4th
+1. added stepThroughActive method to retrieve indexes
+   of active objects and put them in a list.
+*/
