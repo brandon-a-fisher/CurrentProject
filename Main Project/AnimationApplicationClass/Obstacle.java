@@ -1,6 +1,5 @@
-package obstacle;
-
-public class Obstacle {
+public class Obstacle
+{
 	
 	/**
 	  * Here, the variables of the obstacle are initiated.
@@ -78,9 +77,9 @@ public class Obstacle {
 		}
 	}
 	
-	private boolean finalCheck()
+	private void finalCheck(int xPos, int yPos)
 	{
-		if ( obstacleIsGone || hitObstacle )
+		if ( obstacleIsGone() || hitObstacle(xPos, yPos) )
 		{
 			isAlive = false;
 		}
@@ -95,4 +94,5 @@ public class Obstacle {
 	{
 		return isAlive;
 	}
+	
 }
