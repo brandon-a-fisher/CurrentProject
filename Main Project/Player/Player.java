@@ -1,19 +1,27 @@
 public class Player
 {
 	private int playerHealth = 5;
-	private int xPos = 0;
-	private int yPos = 0;
+	private int xValue;
+	private int yValue;
+	private boolean isAlive;
 
-	public boolean IsAlive()
+	public Player()
 	{
-		if(playerHealth<=0)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		xValue = 0;
+		yValue = 10;
+		isAlive = true;
+	}
+	
+	public Player(int setX, int setY)
+	{
+		xValue = setX;
+		yValue = setY;
+		isAlive = true;
+	}
+	
+	public boolean getIsAlive()
+	{
+		return isAlive;
 	}
 
 	public void TakeDamage()
@@ -27,5 +35,20 @@ public class Player
 		{
 			playerHealth += 1;
 		}
+	}
+	
+	public void Jump()
+	{
+		pass;
+	}
+	
+	public getXPos()
+	{
+		return xValue;
+	}
+	
+	public getYPos()
+	{
+		return yValue;
 	}
 }
