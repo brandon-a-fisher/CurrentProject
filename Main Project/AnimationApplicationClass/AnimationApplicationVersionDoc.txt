@@ -151,3 +151,10 @@ Version 27_3 February 4th
 1. added stepThroughActive method to retrieve indexes
    of active objects and put them in a list.
 */
+
+/**
+Version 27_4 February 4th
+
+1. Created constructors.
+2. Created a way to test all my methods in main.
+*/
