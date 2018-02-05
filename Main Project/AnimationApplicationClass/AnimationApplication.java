@@ -5,29 +5,68 @@
 import java.util.Arrays;
 
 /**
-Version 27_3 February 4th
-1. added stepThroughActive method to retrieve indexes
-   of active objects and put them in a list.
-*/
+Version 27_4 February 4th
 
+1. Created constructors.
+2. Created a way to test all my methods in main.
+*/
 public class AnimationApplication
 {
 	// These values set size of Arrays that contain active objects.
-	private final int MAX_ACTIVE_OBSTACLES = 3; 
-	private final int MAX_ACTIVE_PLAYERS = 3;
-	private final int MAX_ACTIVE_COLLECTIBLES = 3;
+	private final int MAX_ACTIVE_OBSTACLES; 
+	private final int MAX_ACTIVE_PLAYERS;
+	private final int MAX_ACTIVE_COLLECTIBLES;
 	
-	private final int MAX_OBJECTS_GAME = 2; // Will be mainly used to control instantiation in main method.
+	// Will be mainly used to control instantiation in main method.
+	private final int MAX_OBJECTS_GAME; 
 	
-	private int numActiveObstacles = 0;
-	private int numActivePlayers = 0;
-	private int numActiveCollectibles= 0;
+	private int numActiveObstacles;
+	private int numActivePlayers;
+	private int numActiveCollectibles;
 	
 	// The following are the active object lists. They maintain references to objects that are currently
 	// active in the game.
-	Obstacle[] activeObstacleList = new Obstacle[MAX_ACTIVE_OBSTACLES]; // Will use String for Array type until Obstacle class imported
-	Player[] activePlayerList = new Player[MAX_ACTIVE_PLAYERS];
-	Collectible[] activeCollectibleList= new Collectible[MAX_ACTIVE_COLLECTIBLES]; // Will use String for Array type until Collectible class imported.
+	Obstacle[] activeObstacleList; 
+	Player[] activePlayerList;
+	Collectible[] activeCollectibleList; 
+	
+	/**
+	The following are the constructors for this class. 
+	*/
+	
+	public AnimationApplication()
+	{
+		MAX_ACTIVE_OBSTACLES = 1;
+		MAX_ACTIVE_PLAYERS = 1;
+		MAX_ACTIVE_COLLECTIBLES = 1;
+		MAX_OBJECTS_GAME = 3;
+		
+		numActiveObstacles = 0;
+	    numActivePlayers = 0;
+	    numActiveCollectibles= 0;
+		
+		activeObstacleList = new Obstacle[MAX_ACTIVE_OBSTACLES]; 
+		activePlayerList = new Player[MAX_ACTIVE_PLAYERS];
+		activeCollectibleList= new Collectible[MAX_ACTIVE_COLLECTIBLES]; 
+	}
+	
+	public AnimationApplication(int maxObstacle, int maxPlayer, int maxCollectible, int maxObject)
+	{
+		
+		MAX_ACTIVE_OBSTACLES = maxObstacle;
+		MAX_ACTIVE_PLAYERS = maxPlayer;
+		MAX_ACTIVE_COLLECTIBLES = maxCollectible;
+		MAX_OBJECTS_GAME = maxObject;
+		
+		numActiveObstacles = 0;
+	    numActivePlayers = 0;
+	    numActiveCollectibles= 0;
+		
+		activeObstacleList = new Obstacle[MAX_ACTIVE_OBSTACLES]; 
+		activePlayerList = new Player[MAX_ACTIVE_PLAYERS];
+		activeCollectibleList= new Collectible[MAX_ACTIVE_COLLECTIBLES];
+		
+	}
 	
 	/**
 	  *Places newly instantiated obstacles in the first free index of the activeObstacleList.
@@ -471,28 +510,41 @@ public class AnimationApplication
 	
 	public static void main(String[]args)
 	{
-		AnimationApplication gameEngine = new AnimationApplication();
+		AnimationApplication gameEngine = new AnimationApplication(4,4,4,16);
 		
 		gameEngine.makeCollectible(0,10); 
 		gameEngine.makeCollectible(0,10);
 		gameEngine.makeCollectible(0,10);
 		
+		gameEngine.deleteCollectible(0);
+		
 		gameEngine.makeObstacle(0,10);
 		gameEngine.makeObstacle(0,10);
 		gameEngine.makeObstacle(0,10);
 		
-		gameEngine.makePlayer(0,10);
-		gameEngine.makePlayer(0,10);
-		gameEngine.makePlayer(0,10);
-		
-		gameEngine.deleteCollectible(1);
-		gameEngine.deletePlayer(1);
-		gameEngine.deletePlayer(0);
 		gameEngine.deleteObstacle(1);
 		
-		int[] activeObjectIndex = gameEngine.stepThroughActive("Player");
+		gameEngine.makePlayer(0,10);
+		gameEngine.makePlayer(0,10);
+		gameEngine.makePlayer(0,10);
+		
+		gameEngine.deletePlayer(2);
+		
+		gameEngine.printActiveObjectList("Player");
+		gameEngine.printActiveObjectList("Obstacle");
+		gameEngine.printActiveObjectList("Collectible");
+	
+		
+		int[] activePlayerIndex = gameEngine.stepThroughActive("Player");
+		int[] activeObstacleIndex = gameEngine.stepThroughActive("Obstacle");
+		int[] activeCollectibleIndex = gameEngine.stepThroughActive("Collectible");
 		
 		System.out.println("");
-		System.out.println( Arrays.toString(activeObjectIndex) );
+		System.out.println("ActivePlayerIndexList: " + Arrays.toString(activePlayerIndex) );
+		System.out.println("");
+		System.out.println("ActiveObstacleIndexList: " + Arrays.toString(activeObstacleIndex) );
+		System.out.println("");
+		System.out.println("ActiveCollectibleIndexList: " + Arrays.toString(activeCollectibleIndex) );
+		System.out.println("");
 	}
 }
