@@ -4,8 +4,8 @@ public class Customer
 	private int customerID ;
 	
   	/**
-	* The following constructor acts as the default constructor that does not take in any arguments.
-	*/
+	  * The following constructor acts as the default constructor that does not take in any arguments.
+	  */
 	public Customer()
 	{
 		name = "No Name";
