@@ -6,7 +6,7 @@ public class BankAccount
 	private Customer currentCustomer;
 	
 	/**
-	  * The following are the constructors for BankAccont.
+	  * The following constructor acts as the default constructor that takes in no arguments.
 	  */
 	public BankAccount()
 	{
@@ -15,6 +15,9 @@ public class BankAccount
 		currentCustomer = new Customer();
 	}
 	
+	/**
+	  * Here, the bank account constructor takes in both a customer and an initial balance.
+	  */
 	public BankAccount(Customer initialCustomer, double initialBalance)
 	{
 		currentCustomer = initialCustomer;
@@ -22,6 +25,9 @@ public class BankAccount
 		overdraftAmount = 100;
 	}
 	
+	/**
+	  * This constructor only takes in a customer.
+	  */
 	public BankAccount(Customer initialCustomer)
 	{
 		currentCustomer = initialCustomer;
@@ -29,6 +35,9 @@ public class BankAccount
 		overdraftAmount = 100;
 	}
 	
+	/**
+	  * This constructor only takes in an initial balance.
+	  */
 	public BankAccount(double initialBalance)
 	{
 		currentCustomer = new Customer();
@@ -100,10 +109,5 @@ public class BankAccount
 	public void setBalance(double newBalance)
 	{
 		balance = newBalance;
-	}
-	
-	public static void main(String[]args)
-	{	
-	
 	}
 }
