@@ -17,14 +17,14 @@ public class BankAccount
 	
 	public BankAccount(Customer initialCustomer, double initialBalance)
 	{
-		currentCustomer = new Customer(initialCustomer);
+		currentCustomer = initialCustomer;
 		balance = initialBalance;
 		overdraftAmount = 100;
 	}
 	
 	public BankAccount(Customer initialCustomer)
 	{
-		currentCustomer = new Customer(initialCustomer);
+		currentCustomer = initialCustomer;
 		balance = 0;
 		overdraftAmount = 100;
 	}
