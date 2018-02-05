@@ -152,9 +152,18 @@ Version 27_3 February 4th
    of active objects and put them in a list.
 */
 
+______________________________________________________________________________________________________________
 /**
 Version 27_4 February 4th
 
 1. Created constructors.
 2. Created a way to test all my methods in main.
+*/
+
+______________________________________________________________________________________________________________
+
+/**
+Version 27_5 February 5th
+1. Added get methods for numActiveObject variables.
+2. Deleted misleading comments in incomplete registerCollison method.
 */
