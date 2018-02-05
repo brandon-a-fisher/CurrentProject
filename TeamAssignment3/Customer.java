@@ -4,8 +4,8 @@ public class Customer
 	private int customerID ;
 	
   	/**
-	* The following constructor acts as the default constructor that doesn't take in any arguments.
-	*/
+	  * The following constructor acts as the default constructor that does not take in any arguments.
+	  */
 	public Customer()
 	{
 		name = "No Name";
@@ -13,7 +13,7 @@ public class Customer
 	}
 	
 	/**
-	  * Here, the constructor takes in an initial name and initial ID.
+	  * Here, the constructor takes in an initial name and an initial ID.
 	  */
 	public Customer(String initialName, int initialID)
 	{
@@ -53,16 +53,11 @@ public class Customer
 	}
 	
 	/**
-	  *toString() returns a string containing a formatted output of the Customer name and Customer ID.
+	  * Returns a string containing a formatted output of the Customer name and Customer ID.
 	  */
 	public String toString()
 	{
 		String customerString = "CustomerName: " + name + " , CustomerID: " + customerID;
 		return customerString;
-	}
-	
-	public static void main(String[]args)
-	{
-
 	}
 }
