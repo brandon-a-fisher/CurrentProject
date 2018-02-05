@@ -1,25 +1,60 @@
+package obstacle;
+
 public class Obstacle {
-	private static int length = 1;	//The length of the obstacle stays the same throughout, and is initiated as being 1 here. It's the
-	private static int height = 1;	//  same for the height, which is used to check whether the user jumped above or not.
+			
+	private int xValue = 30;
+	private int yValue;
+
+	private int length;
+	private int height;
 	
-	private static int xValue = 10;	//Here, the xValue is initiated at the end of the screen.
-	
-	//This will make the obstacle move 1 block closer to the player.
-	private void moveObstaclePosition()
-	{								//IMPORTANT: Later on these two functions of moveObstaclePosition
-		xValue -= 1;						//  and getObstaclePosition can be put together.
+	public Obstacle()
+	{
+		yValue = 1;
+				
+		length = 1;
+		height = 1;
 	}
 	
-	//This will return the xValue of the obstacle.
-	private int getObstaclePosition()
+	public Obstacle( int newYValue, int newLengthValue, int newHeightValue )
+	{
+		yValue = newYValue;
+		
+		length = newLengthValue;
+		height = newHeightValue;
+	}
+	
+	public Obstacle( int newYValue )
+	{
+		yValue = newYValue;
+		
+		length = 1;
+		height = 1;
+	}
+	
+	private void moveObstaclePosition()
+	{
+		xValue -= 1;
+	}
+	
+	private int getObstacleXPosition()
 	{
 		return xValue;
 	}
 	
-	//This will check whether the player hit the obstacle, returning booleans accordingly.
+	private int getObstacleYPosition()
+	{
+		return yValue;
+	}
+	
+	private void setObstacleY( int newY )
+	{
+		yValue = newY;
+	}
+	
 	private boolean hitObstacle( int xPos, int yPos )
 	{
-		if ( (xValue == xPos) && (height == yPos ) )
+		if ( (xValue == xPos) && (yValue == yPos ) )
 		{
 			return true;
 		}
