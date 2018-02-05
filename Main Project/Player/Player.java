@@ -39,7 +39,13 @@ public class Player
 	
 	public void Jump()
 	{
-		pass;
+		switch(yValue)
+		{
+			case 0: yValue = 10;
+				break;
+			case 10; yValue = 0;
+				break;
+		}
 	}
 	
 	public getXPos()
