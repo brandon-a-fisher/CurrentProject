@@ -5,10 +5,9 @@
 import java.util.Arrays;
 
 /**
-Version 27_4 February 4th
-
-1. Created constructors.
-2. Created a way to test all my methods in main.
+Version 27_5 February 5th
+1. Added get methods for numActiveObject variables.
+2. Deleted misleading comments in incomplete registerCollison method.
 */
 public class AnimationApplication
 {
@@ -352,11 +351,7 @@ public class AnimationApplication
 				{
 					//getPlayer(playerIndex).hasCollisionObstacle <AnimationApplication>
 					
-										 // Method should check for collisions with objects
-										 // in activeObstacleList by stepping through it using
-										 // getObstacle() and activeObstacleLength() on the AnimationApplication 
-										 // object taken as an argument. If a collision is registered,
-										 // necessary action should be taken with the aid of deleteObstacle().
+										
 				}
 			}
 		}
@@ -369,11 +364,7 @@ public class AnimationApplication
 				{
 					//getPlayer(playerIndex).hasCollisionCollectible <gameEngine> 
 					
-									   // Method should check for collisions with objects
-									   // in activeCollectibleList by stepping through it using
-									   // getCollectible() and activeCollectibleLength() on the AnimationApplication 
-									   // object taken as an argument. If a collision is registered,
-									   // necessary action should be taken with the aid of deleteCollectible().
+									
 				}
 			}
 		}
@@ -409,6 +400,36 @@ public class AnimationApplication
 	public Collectible getCollectible(int index)
 	{
 		return activeCollectibleList[index];
+	}
+	
+	/** 
+	  * Returns integer value of the number of active Collectibles.
+	  * If none are active, return will be 0. Should be used to ensure
+	  * proper input for stepThroughActive (ie: activeObject > 0).
+	  */
+	public int getNumCollectibles()
+	{
+		return numActiveCollectibles;
+	}
+	
+	/** 
+	  * Returns integer value of the number of active Obstacles.
+	  * If none are active, output will be 0. Should be used to ensure
+	  * proper input for stepThroughActive (ie: activeObject > 0).
+	  */
+	public int getNumObstacles()
+	{
+		return numActiveObstacles;
+	}
+	
+	/** 
+	  * Returns integer value of the number of active Players.
+	  * If none are active, return will be 0. Should be used to ensure
+	  * proper input for stepThroughActive (ie: activeObject > 0).
+	  */
+	public int getNumPlayers()
+	{
+		return numActivePlayers;
 	}
 	
 	/** 
@@ -510,9 +531,10 @@ public class AnimationApplication
 	
 	public static void main(String[]args)
 	{
-		AnimationApplication gameEngine = new AnimationApplication(4,4,4,16);
+		AnimationApplication gameEngine = new AnimationApplication(3,3,3,16);
 		
 		gameEngine.makeCollectible(0,10); 
+		gameEngine.makeCollectible(0,10);
 		gameEngine.makeCollectible(0,10);
 		gameEngine.makeCollectible(0,10);
 		
@@ -534,17 +556,23 @@ public class AnimationApplication
 		gameEngine.printActiveObjectList("Obstacle");
 		gameEngine.printActiveObjectList("Collectible");
 	
-		
 		int[] activePlayerIndex = gameEngine.stepThroughActive("Player");
 		int[] activeObstacleIndex = gameEngine.stepThroughActive("Obstacle");
 		int[] activeCollectibleIndex = gameEngine.stepThroughActive("Collectible");
 		
 		System.out.println("");
 		System.out.println("ActivePlayerIndexList: " + Arrays.toString(activePlayerIndex) );
-		System.out.println("");
 		System.out.println("ActiveObstacleIndexList: " + Arrays.toString(activeObstacleIndex) );
-		System.out.println("");
 		System.out.println("ActiveCollectibleIndexList: " + Arrays.toString(activeCollectibleIndex) );
+		
 		System.out.println("");
+		System.out.println("ActivePlayerListLength: " + gameEngine.activePlayerLength());
+		System.out.println("ActiveObstacleListLength: " + gameEngine.activeObstacleLength());
+		System.out.println("ActivePlayerCollectibleLength: " + gameEngine.activeCollectibleLength());	
+		
+		System.out.println("");
+		System.out.println("Number of Active Players: " + gameEngine.getNumPlayers() );
+		System.out.println("Number of Active Obstacles: " + gameEngine.getNumObstacles() );
+		System.out.println("Number of Active Collectibles: " + gameEngine.getNumCollectibles() );
 	}
 }
