@@ -1,7 +1,12 @@
 package obstacle;
 
 public class Obstacle {
-			
+	
+	/**
+	  * Here, the variables of the obstacle are initiated.
+	  */
+	private boolean isAlive = true;
+	
 	private int xValue = 30;
 	private int yValue;
 
@@ -47,11 +52,6 @@ public class Obstacle {
 		return yValue;
 	}
 	
-	private void setObstacleY( int newY )
-	{
-		yValue = newY;
-	}
-	
 	private boolean hitObstacle( int xPos, int yPos )
 	{
 		if ( (xValue == xPos) && (yValue == yPos ) )
@@ -63,5 +63,36 @@ public class Obstacle {
 		{
 			return false;
 		}
+	}
+	
+	private boolean obstacleIsGone()
+	{
+		if ( xValue <= 0 )
+		{
+			return true;
+		}
+		
+		else
+		{
+			return false;
+		}
+	}
+	
+	private boolean finalCheck()
+	{
+		if ( obstacleIsGone || hitObstacle )
+		{
+			isAlive = false;
+		}
+		
+		else
+		{
+			isAlive = true;
+		}
+	}
+	
+	public boolean getIsAlive()
+	{
+		return isAlive;
 	}
 }
