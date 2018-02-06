@@ -44,3 +44,11 @@ Version 27_6 February 5th
 1. Updated to work with new Collectible class by adding ypos arguments
    to creations of new collectible objects.
 */
+
+Version 27_7 February 5th
+1. Made a test algorithm to try out Obstacle.java with 
+   AnimationApplication.java to see how lists work with
+   objects, and to test delete methods.
+2. Made delete methods private.
+3. Imported Scanner.
+*/
