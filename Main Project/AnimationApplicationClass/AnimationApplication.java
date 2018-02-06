@@ -3,11 +3,15 @@
 // 
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 /**
-Version 27_6 February 5th
-1. Updated to work with new Collectible class by adding ypos arguments
-   to creations of new collectible objects.
+Version 27_7 February 5th
+1. Made a test algorithm to try out Obstacle.java with 
+   AnimationApplication.java to see how lists work with
+   objects, and to test delete methods.
+2. Made delete methods private.
+3. Imported Scanner.
 */
 public class AnimationApplication
 {
@@ -191,7 +195,7 @@ public class AnimationApplication
 	/** Instantiates an Obstacle at the specified x and y positions on the map. Takes
 	  * two integers representing the x and y positions as arguments.
 	  */
-	public void makeObstacle(int xpos, int ypos)
+	public void makeObstacle(int ypos)
 	{
 		int maximumActive = MAX_ACTIVE_OBSTACLES;
 		int currentActive = numActiveObstacles;
@@ -199,7 +203,7 @@ public class AnimationApplication
 		if( currentActive < maximumActive && 
 		    currentActive >= 0)
 		{	
-			Obstacle obstacleObject = new Obstacle();
+			Obstacle obstacleObject = new Obstacle(ypos, 1, 1);
 			numActiveObstacles++; 				  
 			addToActiveObstacleList(obstacleObject);
 			
@@ -251,7 +255,7 @@ public class AnimationApplication
 	/**  
 	  * Removes obstacle at specified index from activeObstacleList by putting a null value in its place. 
 	  */
-	public void deleteObstacle(int index) 
+	private void deleteObstacle(int index) 
 	{
 		if (index < activeObstacleList.length && index >= 0)
 		{
@@ -280,7 +284,7 @@ public class AnimationApplication
    /** 
 	 * Removes player at specified index from activePlayerList by putting a null value in its place. 
 	 */
-	public void deletePlayer(int index) 
+	private void deletePlayer(int index) 
 	{
 		if (index < activePlayerList.length && index >= 0)
 		{
@@ -309,7 +313,7 @@ public class AnimationApplication
 	/**  
 	  * Removes obstacle at specified index from activeObstacleList by putting a null value in its place. 
 	  */
-	public void deleteCollectible(int index) 
+	private void deleteCollectible(int index) 
 	{
 		if (index < activeCollectibleList.length && index >= 0)
 		{
@@ -531,51 +535,57 @@ public class AnimationApplication
 	
 	public static void main(String[]args)
 	{
-		AnimationApplication gameEngine = new AnimationApplication(3,3,3,16);
+		// The following is just a test of a few methods in Obstacle.java
+		// to see how they update with AnimationApplication lists. Object
+		// is deleted when it goes out of bounds, but we exit system after
+		// because we'd have an error when we try to use method on getObstacle(0)
+		// since that index is now null.
 		
-		gameEngine.makeCollectible(0); 
-		gameEngine.makeCollectible(4);
-		gameEngine.makeCollectible(3);
-		gameEngine.makeCollectible(2);
+		AnimationApplication gameEngine = new AnimationApplication(2,1,1,2);
 		
-		gameEngine.makeObstacle(0,10);
-		gameEngine.makeObstacle(0,10);
-		gameEngine.makeObstacle(0,10);
+		Scanner keyboard = new Scanner(System.in);
+		int nextFrame = 0;
 		
-		gameEngine.deleteObstacle(1);
+		gameEngine.makePlayer(0,30);
 		
-		gameEngine.makePlayer(0,10);
-		gameEngine.makePlayer(0,10);
-		gameEngine.makePlayer(0,10);
+		// So we have at least one active obstacle
+		// when game starts.
+		gameEngine.makeObstacle(30);
+		gameEngine.makeObstacle(30);
 		
-		gameEngine.deletePlayer(2);
+		boolean currentObstacleOutOfBounds = false;
 		
-		gameEngine.printActiveObjectList("Player");
+		boolean gameOver = false;
+		
+		System.out.println("");
 		gameEngine.printActiveObjectList("Obstacle");
-		gameEngine.printActiveObjectList("Collectible");
-	
-		int[] activePlayerIndex = gameEngine.stepThroughActive("Player");
-		int[] activeObstacleIndex = gameEngine.stepThroughActive("Obstacle");
-		int[] activeCollectibleIndex = gameEngine.stepThroughActive("Collectible");
-		
 		System.out.println("");
-		System.out.println("ActivePlayerIndexList: " + Arrays.toString(activePlayerIndex) );
-		System.out.println("ActiveObstacleIndexList: " + Arrays.toString(activeObstacleIndex) );
-		System.out.println("ActiveCollectibleIndexList: " + Arrays.toString(activeCollectibleIndex) );
 		
-		System.out.println("");
-		System.out.println("ActivePlayerListLength: " + gameEngine.activePlayerLength());
-		System.out.println("ActiveObstacleListLength: " + gameEngine.activeObstacleLength());
-		System.out.println("ActivePlayerCollectibleLength: " + gameEngine.activeCollectibleLength());	
+		while(!(gameOver))
+		{
+			gameEngine.getObstacle(0).finalCheck(100,100);
+			
+			
+			if( !(gameEngine.getObstacle(0).getIsAlive()) )
+			{
+				System.out.println("");
+				System.out.println("OBSTACLE WAS DELETED AT INDEX 0");
+				gameEngine.deleteObstacle(0);
+				System.out.println("");
+				gameEngine.printActiveObjectList("Obstacle");
+				System.out.println("");
+				System.exit(0);
+			}
+			
+			System.out.print( " activeObstacleList[0] Position: ( " + gameEngine.getObstacle(0).getObstacleXPosition() + " , " );
+			System.out.println( gameEngine.getObstacle(0).getObstacleYPosition() + " )" );
+			
+			gameEngine.getObstacle(0).moveObstaclePosition();
+			
+			System.out.println("");
+			System.out.println("ENTER ANY INTEGER TO GO TO NEXT FRAME: ");
+			nextFrame = keyboard.nextInt();	
+		}
 		
-		System.out.println("");
-		System.out.println("Number of Active Players: " + gameEngine.getNumPlayers() );
-		System.out.println("Number of Active Obstacles: " + gameEngine.getNumObstacles() );
-		System.out.println("Number of Active Collectibles: " + gameEngine.getNumCollectibles() );
-		
-		System.out.println("");
-		System.out.println("Y position of Collectible at index 0: " + gameEngine.getCollectible(0).getYPosition() );
-		System.out.println("Y position of Collectible at index 1: " + gameEngine.getCollectible(1).getYPosition() );
-		System.out.println("Y position of Collectible at index 2: " + gameEngine.getCollectible(2).getYPosition() );
 	}
 }
