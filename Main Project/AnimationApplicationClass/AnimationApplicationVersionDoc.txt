@@ -1,133 +1,3 @@
-Version 14 Notes: JAN 3Oth
-
-					 In this version I've: 
-					 1. Built methods to instantiate player and obstacle objects. I've built
-						conditions in these methods to control the max number of objects allowed
-						in the game at a time using a constant called MAX_ACTIVE_OBJECTS.
-						
-					 2. Created an instance variable of type Object Array called activeObjList, 
-						which will be useful to keep track of objects that have been instantiated 
-						during the application run. Instantiated objects are automatically
-						added to this list, and indexes for these objects are chosen by iterating
-						through the indexes and appending to the first that contains null.
-						
-					 3. Created a test in the main method to try out these new methods.
-____________________________________________________________________________________________________________
-
-Version 15 Notes: JAN 3Oth
-					
-					In this version I've:
-					
-					1. Edited object instantiation and deletion test.
-					2. Created a printActiveObjList class to aid in test.
-					
-____________________________________________________________________________________________________________
-					 
-Version 16 Notes: JAN 3Oth
-
-					In this version I've:
-					1. Cleaned up the object instantiation test and added more tests for my methods
-					2. Changed a few local variable names.
-					3. Created a new method to delete an object from activeObjLists
-					4. Made my comments clearer.
-					
-______________________________________________________________________________________________________________
-
-Version 17 Notes: JAN 30th
-
-			1. Fixed <=MAX_ACTIVE_OBJECTS to < MAX_ACTIVE_OBJECTS in if statement of instantiateObject method.
-			
-______________________________________________________________________________________________________________
-
-Version 18 Notes: JAN 30
-	
-			1. Remove object method test in main method.
-			2. import Player Class. Current working version
-			   in my structure is PlayerWV2.java
-			3. Changed any references activeObjList to activeObstacleList. It will only
-			   deal with objects of Obstacle type, although for the time being I'm using 
-			   Scanner as a placeholder.
-			4. Changed all methods to reflect changes in program form, replacing obj
-			   with obstacle.
-			5. Updated comments to reflect changes
-			6. Created test to test simple changes.
-______________________________________________________________________________________________________________
-			
-Version 19 Notes: FEB 1st
-
-			1. Updated printActiveObstacleList method, by removing parameters, and making
-			   method only print contents of that instance variable.
-			2. Updated method descriptions, and made them Java-doc compatible, as well as version description.
-			3. Removed unnecessary parameter for instantiation methods.
-			4. Added several new instance variables to control max objects instantiated
-			   and keep track of how many objects have been instantiated.	
-			5. Created new active object lists.
-			6. Changed printActiveObstacleList to a method capable of printing any of the active object lists
-			   called printActiveObjectList
-______________________________________________________________________________________________________________			   
-Version 20 Notes FEB 1ST
-			1. Made addToActiveObstacleList a private method.
-			2. Added addToActiveCollectibleList and addToActivePlayerList methods.
-			3. Made certain instance variables plural.
-			4. Removed separate methods to instantiate objects and placed them into one method
-			   instantiateObject
-______________________________________________________________________________________________________________
-
-Version 21 Notes FEB 2nd
-			1. Removed instantiateObject method. Was too complex. Replaced with makeObstacle(), makeCollectible, and makePlayer()
-			   classes. These new methods take integer x and y positions as arguments.
-			2. Cleaned  up implementation of printActiveObjectList.
-			3. Created deleteCollectible and deletePlayer methods.
-			4. Tightened whitespace.
-			
-______________________________________________________________________________________________________________
-
-Version 22 Notes FEB 2ND
-
-			1. Changed placeholder class for Obstacle and Collectibles from Scanner to String.
-			2. Changed printActiveObjectList class implementation to include a print out of active
-			   number of objects, and cleaned up implementation a bit.
-			3. Commented out debuggin sections of make methods.
-	
-______________________________________________________________________________________________________________
-
-Version 23 Notes Feb 2nd
-			
-			1. Created registerCollision class and functionality. At the current
-			   it deletes all objects in a type specified by a string argument, but in later
-			   implementation it will only delete overlapping objects. Otherwise functionality
-			   seems to work properly.
-			   
-______________________________________________________________________________________________________________
-
-Version 24 Notes Feb 3rd
-
-			1. Updated some implementation comments.
-			2. Created MAX_OBJECTS_GAME instance variable.
-			3. Started game run algorithm in main method.
-			4. Created getPlayer(), getCollectible() and getObstacle() functions.
-
-
-______________________________________________________________________________________________________________
-Version 25 Notes Feb 3rd
-
-			1. Overhauled registerCollison() so that now its registerCollsionPlayer() and handles
-			   collisions with players for demo 1.
-			2. Removed debug else in make methods.
-			3. Made properly javaDoc compatible.
-______________________________________________________________________________________________________________
-
-  /** 
-	*Version 26 Feb 3rd
-	* 1. Adjusted comments in registerPlayerCollision to 
-	* 	 better describe process.
-	* 2. Created get****Length methods to return integer
-	*    representing the length of a particular active 
-	*	 Object list to aid in overlap methods in other
-	*    classes.
-	*/
-______________________________________________________________________________________________________________	
-
 /** 
 	*Version 27 Feb 3rd
 	* 1. Removed all references to Obstacles and Collectibles being treated as Strings. The proper
@@ -166,4 +36,11 @@ ________________________________________________________________________________
 Version 27_5 February 5th
 1. Added get methods for numActiveObject variables.
 2. Deleted misleading comments in incomplete registerCollison method.
+*/
+
+
+/**
+Version 27_6 February 5th
+1. Updated to work with new Collectible class by adding ypos arguments
+   to creations of new collectible objects.
 */
