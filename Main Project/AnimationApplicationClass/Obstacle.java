@@ -36,17 +36,17 @@ public class Obstacle
 		height = 1;
 	}
 	
-	private void moveObstaclePosition()
+	public void moveObstaclePosition()
 	{
 		xValue -= 1;
 	}
 	
-	private int getObstacleXPosition()
+	public int getObstacleXPosition()
 	{
 		return xValue;
 	}
 	
-	private int getObstacleYPosition()
+	public int getObstacleYPosition()
 	{
 		return yValue;
 	}
@@ -77,7 +77,7 @@ public class Obstacle
 		}
 	}
 	
-	private void finalCheck(int xPos, int yPos)
+	public void finalCheck(int xPos, int yPos)
 	{
 		if ( obstacleIsGone() || hitObstacle(xPos, yPos) )
 		{
