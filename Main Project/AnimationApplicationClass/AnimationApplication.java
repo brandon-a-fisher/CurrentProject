@@ -5,9 +5,9 @@
 import java.util.Arrays;
 
 /**
-Version 27_5 February 5th
-1. Added get methods for numActiveObject variables.
-2. Deleted misleading comments in incomplete registerCollison method.
+Version 27_6 February 5th
+1. Updated to work with new Collectible class by adding ypos arguments
+   to creations of new collectible objects.
 */
 public class AnimationApplication
 {
@@ -234,7 +234,7 @@ public class AnimationApplication
    /** Instantiates a Collectible at the specified x and y positions on the map. Takes
 	 * two integers representing the x and y positions as arguments.
 	 */
-	public void makeCollectible(int xpos, int ypos) 
+	public void makeCollectible(int yPos) 
 	{
 		int maximumActive = MAX_ACTIVE_COLLECTIBLES;
 		int currentActive = numActiveCollectibles;
@@ -242,7 +242,7 @@ public class AnimationApplication
 		if( currentActive < maximumActive && 
 		    currentActive >= 0)
 		{	
-			Collectible collectibleObject = new Collectible();
+			Collectible collectibleObject = new Collectible(yPos);
 			numActiveCollectibles++;
 			addToActiveCollectibleList(collectibleObject);
 		}
@@ -533,12 +533,10 @@ public class AnimationApplication
 	{
 		AnimationApplication gameEngine = new AnimationApplication(3,3,3,16);
 		
-		gameEngine.makeCollectible(0,10); 
-		gameEngine.makeCollectible(0,10);
-		gameEngine.makeCollectible(0,10);
-		gameEngine.makeCollectible(0,10);
-		
-		gameEngine.deleteCollectible(0);
+		gameEngine.makeCollectible(0); 
+		gameEngine.makeCollectible(4);
+		gameEngine.makeCollectible(3);
+		gameEngine.makeCollectible(2);
 		
 		gameEngine.makeObstacle(0,10);
 		gameEngine.makeObstacle(0,10);
@@ -574,5 +572,10 @@ public class AnimationApplication
 		System.out.println("Number of Active Players: " + gameEngine.getNumPlayers() );
 		System.out.println("Number of Active Obstacles: " + gameEngine.getNumObstacles() );
 		System.out.println("Number of Active Collectibles: " + gameEngine.getNumCollectibles() );
+		
+		System.out.println("");
+		System.out.println("Y position of Collectible at index 0: " + gameEngine.getCollectible(0).getYPosition() );
+		System.out.println("Y position of Collectible at index 1: " + gameEngine.getCollectible(1).getYPosition() );
+		System.out.println("Y position of Collectible at index 2: " + gameEngine.getCollectible(2).getYPosition() );
 	}
 }
