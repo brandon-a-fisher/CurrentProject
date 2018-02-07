@@ -89,7 +89,6 @@ public class Obstacle
 		
 		else
 		{
-			isAlive = true;
 			return false;
 		}
 	}
@@ -98,16 +97,11 @@ public class Obstacle
 	 * obstacleIsGone checks whether or not the obstacle has passed the screen and changes
 	 *  the value of isAlive accordingly.
 	 */
-	public boolean obstacleGone()
+	public void obstacleGone()
 	{
 		if ( xValue < 0 )
 		{
 			isAlive = false;
-		}
-		
-		else
-		{
-			isAlive = true;
 		}
 	}
 }
