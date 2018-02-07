@@ -1,27 +1,30 @@
+
 public class Player
 {
 	private int playerHealth = 5;
-	private int xValue;
-	private int yValue;
-	private boolean isAlive;
+	private int xValue = 0;
+	private int yValue = 0;
 
-	public Player()
+	public boolean IsAlive()
 	{
-		xValue = 0;
-		yValue = 10;
-		isAlive = true;
+		if(playerHealth<=0)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
-	
-	public Player(int setX, int setY)
+
+	public int getXPosition()
 	{
-		xValue = setX;
-		yValue = setY;
-		isAlive = true;
+		return xValue;
 	}
-	
-	public boolean getIsAlive()
+
+	public int getYPosition()
 	{
-		return isAlive;
+		return yValue;
 	}
 
 	public void TakeDamage()
@@ -36,25 +39,23 @@ public class Player
 			playerHealth += 1;
 		}
 	}
-	
-	public void Jump()
+
+	public void Move(char move)
 	{
-		switch(yValue)
+		switch(move)
 		{
-			case 0: yValue = 10;
+			case 'w':
+				if(this.yValue < 10)
+				{
+					this.yValue = 10;
+				}
 				break;
-			case 10; yValue = 0;
+			case 's':
+				if(this.yValue > 0)
+				{
+					this.yValue = 0;
+				}
 				break;
 		}
-	}
-	
-	public getXPos()
-	{
-		return xValue;
-	}
-	
-	public getYPos()
-	{
-		return yValue;
 	}
 }
