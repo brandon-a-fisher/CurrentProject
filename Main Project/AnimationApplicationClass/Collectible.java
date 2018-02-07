@@ -5,6 +5,7 @@ if the object if off-screen.
 */
 public class Collectible {
 
+	private boolean isAlive;
 	private int xValue;
 	private int yValue;
 	private int length;
@@ -37,7 +38,7 @@ Returns the y position.
 /**
 Returns a boolean of the isAlive.
 */
-	public int getIsAlive() {
+	public boolean getIsAlive() {
 		return isAlive;
 	}
 
@@ -46,9 +47,10 @@ Returns true if the objects overlaps the given x and y positions and false if
 not.
 */
 	public boolean overlapsWith(int yPos, int xPos) {
-		if (xPos == this.xValue && yPos == this.yValue)
+		if (xPos == this.xValue && yPos == this.yValue) {
 			isAlive = false;
 			return true;
+		}
 		else
 			return false;
 	}
