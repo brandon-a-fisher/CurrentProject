@@ -52,7 +52,7 @@ public class Obstacle
 	 * moveObstaclePosition moves the obstacle to the left by one unit each time it
 	 *   is called.
 	 */
-	public void moveObstaclePosition()
+	public void moveObstacle()
 	{
 		xValue -= 1;
 	}
@@ -79,7 +79,7 @@ public class Obstacle
 	 * hitObstacle checks whether or not the player has hit the obstacle and returns a
 	 *   value of true or false accordingly. It also changes the value of isAlive.
 	 */
-	public boolean hitObstacle( int xPos, int yPos )
+	public boolean overlapsWith( int xPos, int yPos )
 	{
 		if ( (xValue == xPos) && (yValue == yPos ) )
 		{
@@ -98,7 +98,7 @@ public class Obstacle
 	 * obstacleIsGone checks whether or not the obstacle has passed the screen and changes
 	 *  the value of isAlive accordingly.
 	 */
-	public boolean obstacleIsGone()
+	public boolean obstacleGone()
 	{
 		if ( xValue < 0 )
 		{
