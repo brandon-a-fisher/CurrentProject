@@ -1,9 +1,9 @@
 public class Obstacle
 {
 	
-	/**
-	  * Here, the variables of the obstacle are initiated.
-	  */
+	/*
+	 * Here, the variables of the obstacle are initiated.
+	 */
 	private boolean isAlive = true;
 	
 	private int xValue = 30;
