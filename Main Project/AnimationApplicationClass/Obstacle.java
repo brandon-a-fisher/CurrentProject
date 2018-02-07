@@ -60,12 +60,12 @@ public class Obstacle
 	/*
 	 * The following three getter methods return the xValue, yValue, and isAlive of the obstacle.
 	 */
-	public int getObstacleXPosition()
+	public int getXPosition()
 	{
 		return xValue;
 	}
 	
-	public int getObstacleYPosition()
+	public int getYPosition()
 	{
 		return yValue;
 	}
