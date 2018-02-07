@@ -2,8 +2,8 @@
 public class Player
 {
 	private int playerHealth = 5;
-	private int xPos = 0;
-	private int yPos = 0;
+	private int xValue = 0;
+	private int yValue = 0;
 
 	public boolean IsAlive()
 	{
@@ -27,6 +27,25 @@ public class Player
 		if(playerHealth < 5)
 		{
 			playerHealth += 1;
+		}
+	}
+	
+	public void Move(char move)
+	{
+		switch(move)
+		{
+			case 'w':
+				if(this.yValue < 10)
+				{
+					this.yValue = 10;
+				}
+				break;
+			case 's':
+				if(this.yValue > 0)
+				{
+					this.yValue = 0;
+				}
+				break;
 		}
 	}
 }
