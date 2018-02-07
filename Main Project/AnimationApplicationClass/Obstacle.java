@@ -58,7 +58,7 @@ public class Obstacle
 	}
 	
 	/*
-	 * The following two getter methods return the xValue, yValue, and isAlive of the obstacle.
+	 * The following three getter methods return the xValue, yValue, and isAlive of the obstacle.
 	 */
 	public int getObstacleXPosition()
 	{
@@ -77,45 +77,30 @@ public class Obstacle
 	
 	/*
 	 * hitObstacle checks whether or not the player has hit the obstacle and returns a
-	 *   value of true or false accordingly.
+	 *   value of true or false accordingly. It also changes the value of isAlive.
 	 */
 	public boolean hitObstacle( int xPos, int yPos )
 	{
 		if ( (xValue == xPos) && (yValue == yPos ) )
 		{
+			isAlive = false;
 			return true;
 		}
 		
 		else
 		{
+			isAlive = true;
 			return false;
 		}
 	}
 	
 	/*
-	 * obstacleIsGone checks whether or not the obstacle has passed the screen and returns a
-	 *  value of true or false accordingly.
+	 * obstacleIsGone checks whether or not the obstacle has passed the screen and changes
+	 *  the value of isAlive accordingly.
 	 */
 	public boolean obstacleIsGone()
 	{
-		if ( xValue <= 0 )
-		{
-			return true;
-		}
-		
-		else
-		{
-			return false;
-		}
-	}
-	
-	/*
-	 * finalCheck checks both whether the obstacle is gone or if it's hit the player and
-	 *  changes the value of is alive to either true or false accordingly.
-	 */
-	public void finalCheck(int xPos, int yPos)
-	{
-		if ( obstacleIsGone() || hitObstacle(xPos, yPos) )
+		if ( xValue < 0 )
 		{
 			isAlive = false;
 		}
