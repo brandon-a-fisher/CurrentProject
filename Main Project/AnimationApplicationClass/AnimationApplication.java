@@ -6,12 +6,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
-Version 27_7 February 5th
-1. Made a test algorithm to try out Obstacle.java with 
-   AnimationApplication.java to see how lists work with
-   objects, and to test delete methods.
-2. Made delete methods private.
-3. Imported Scanner.
+Version 27_8 February 6th
 */
 public class AnimationApplication
 {
@@ -535,57 +530,7 @@ public class AnimationApplication
 	
 	public static void main(String[]args)
 	{
-		// The following is just a test of a few methods in Obstacle.java
-		// to see how they update with AnimationApplication lists. Object
-		// is deleted when it goes out of bounds, but we exit system after
-		// because we'd have an error when we try to use method on getObstacle(0)
-		// since that index is now null.
 		
-		AnimationApplication gameEngine = new AnimationApplication(2,1,1,2);
-		
-		Scanner keyboard = new Scanner(System.in);
-		int nextFrame = 0;
-		
-		gameEngine.makePlayer(0,30);
-		
-		// So we have at least one active obstacle
-		// when game starts.
-		gameEngine.makeObstacle(30);
-		gameEngine.makeObstacle(30);
-		
-		boolean currentObstacleOutOfBounds = false;
-		
-		boolean gameOver = false;
-		
-		System.out.println("");
-		gameEngine.printActiveObjectList("Obstacle");
-		System.out.println("");
-		
-		while(!(gameOver))
-		{
-			gameEngine.getObstacle(0).finalCheck(100,100);
-			
-			
-			if( !(gameEngine.getObstacle(0).getIsAlive()) )
-			{
-				System.out.println("");
-				System.out.println("OBSTACLE WAS DELETED AT INDEX 0");
-				gameEngine.deleteObstacle(0);
-				System.out.println("");
-				gameEngine.printActiveObjectList("Obstacle");
-				System.out.println("");
-				System.exit(0);
-			}
-			
-			System.out.print( " activeObstacleList[0] Position: ( " + gameEngine.getObstacle(0).getObstacleXPosition() + " , " );
-			System.out.println( gameEngine.getObstacle(0).getObstacleYPosition() + " )" );
-			
-			gameEngine.getObstacle(0).moveObstaclePosition();
-			
-			System.out.println("");
-			System.out.println("ENTER ANY INTEGER TO GO TO NEXT FRAME: ");
-			nextFrame = keyboard.nextInt();	
-		}
 		
 	}
 }
