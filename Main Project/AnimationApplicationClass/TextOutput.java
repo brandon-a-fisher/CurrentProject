@@ -16,7 +16,7 @@ public class TextOutput
 		for(int index = 0; index < activePlayers.length; index++)
 		{
 			System.out.print("Player" + index + "(x, y): " + gameEngine.getPlayer(activePlayers[index]).getXPosition() +
-			" " + gameEngine.getPlayer(activePlayers[index]).getYPosition());
+			" " + gameEngine.getPlayer(activePlayers[index]).getYPosition() + "/t" );
 		}
 
 		System.out.println();
@@ -24,7 +24,7 @@ public class TextOutput
 		for(int index = 0; index < activeObstacles.length; index++)
 		{
 			System.out.print("Obstacle" + index + "(x, y): " + gameEngine.getObstacle(activeObstacles[index]).getXPosition() +
-			" " + gameEngine.getObstacle(activeObstacles[index]).getYPosition());
+			" " + gameEngine.getObstacle(activeObstacles[index]).getYPosition() + "/t" );
 		}
 
 		System.out.println();
@@ -32,7 +32,7 @@ public class TextOutput
 		for(int index = 0; index < activeCollectibles.length; index++)
 		{
 			System.out.print("Collectible" + index + "(x, y): " + gameEngine.getCollectible(activeCollectibles[index]).getXPosition() +
-			 " " + gameEngine.getCollectible(activeCollectibles[index]).getYPosition());
+			 " " + gameEngine.getCollectible(activeCollectibles[index]).getYPosition() + "/t" );
 		}
 	}
 }
