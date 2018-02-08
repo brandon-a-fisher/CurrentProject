@@ -1,54 +1,5 @@
-/** 
-	*Version 27 Feb 3rd
-	* 1. Removed all references to Obstacles and Collectibles being treated as Strings. The proper
-	*    object types: Obstacle and Collectible are now returned.
-	*/
-	
-______________________________________________________________________________________________________________
-
- /** 
-	*Version 27_2 Feb 3rd
-	* 1. Fixed a logic error in delete methods where it was possible to
-	*	 decrement numActiveObject variables below 0 by using the method
-	*	 on null indexes.
-	* 2. Fixed another error in delete methods where you could specify an
-	* 	 index out of range without warning.
-	*/
-
-______________________________________________________________________________________________________________	
 /**
-Version 27_3 February 4th
-1. added stepThroughActive method to retrieve indexes
-   of active objects and put them in a list.
-*/
-
-______________________________________________________________________________________________________________
-/**
-Version 27_4 February 4th
-
-1. Created constructors.
-2. Created a way to test all my methods in main.
-*/
-
-______________________________________________________________________________________________________________
-
-/**
-Version 27_5 February 5th
-1. Added get methods for numActiveObject variables.
-2. Deleted misleading comments in incomplete registerCollison method.
-*/
-
-
-/**
-Version 27_6 February 5th
-1. Updated to work with new Collectible class by adding ypos arguments
-   to creations of new collectible objects.
-*/
-
-Version 27_7 February 5th
-1. Made a test algorithm to try out Obstacle.java with 
-   AnimationApplication.java to see how lists work with
-   objects, and to test delete methods.
-2. Made delete methods private.
-3. Imported Scanner.
+Version 28 February 7th
+1. Works with TextOuput and has a little demonstration in main.
+2. I next iteration I will game run algorithm for Demo 1.
 */
