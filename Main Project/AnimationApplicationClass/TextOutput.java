@@ -7,12 +7,10 @@ public class TextOutput
 
 	public void PrintActivePositions(AnimationApplication gameEngine)
 	{
-		activePlayers = gameEngine.stepThroughActive("Player");
-		activeObstacles = gameEngine.stepThroughActive("Obstacle");
-		activeCollectibles = gameEngine.stepThroughActive("Collectible");
 		
 		if(gameEngine.getNumPlayers() > 0)
 		{
+			activePlayers = gameEngine.stepThroughActive("Player");
 			for(int index = 0; index < activePlayers.length; index++)
 			{
 				System.out.print("Player" + index + "(x, y): " + gameEngine.getPlayer(activePlayers[index]).getXPosition() +
@@ -24,6 +22,7 @@ public class TextOutput
 		
 		if(gameEngine.getNumObstacles() > 0)
 		{
+			activeObstacles = gameEngine.stepThroughActive("Obstacle");
 			for(int index = 0; index < activeObstacles.length; index++)
 			{
 				System.out.print("Obstacle" + index + "(x, y): " + gameEngine.getObstacle(activeObstacles[index]).getXPosition() +
@@ -35,6 +34,7 @@ public class TextOutput
 		
 		if(gameEngine.getNumCollectibles() > 0)
 		{
+			activeCollectibles = gameEngine.stepThroughActive("Collectible");
 			for(int index = 0; index < activeCollectibles.length; index++)
 			{
 				System.out.print("Collectible" + index + "(x, y): " + gameEngine.getCollectible(activeCollectibles[index]).getXPosition() +
