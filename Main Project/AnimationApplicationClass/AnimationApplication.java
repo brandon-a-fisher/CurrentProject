@@ -1,10 +1,17 @@
 import java.util.Arrays;
 import java.util.Scanner;
-
 /**
-Version 28 February 7th
-1. Works with TextOuput and has a little demonstration in main.
-2. I next iteration I will game run algorithm for Demo 1.
+Version 29 February 7th_2
+1. Changed second constructor to make arguments in order:
+   maxPlayer, maxObstacle, maxCollectible, maxObject.
+   
+2. Removed useless register collision method.
+
+3. Created the game run algorithm for DEMO 1, and info about it above
+   the main method.
+
+4. Created methods called moveActiveObstacles() and  moveActiveCollectibles
+   to handle movement of active obstacles and collectibles.
 */
 public class AnimationApplication
 {
@@ -46,7 +53,7 @@ public class AnimationApplication
 		activeCollectibleList= new Collectible[MAX_ACTIVE_COLLECTIBLES]; 
 	}
 	
-	public AnimationApplication(int maxObstacle, int maxPlayer, int maxCollectible, int maxObject)
+	public AnimationApplication(int maxPlayer, int maxObstacle, int maxCollectible, int maxObject)
 	{
 		
 		MAX_ACTIVE_OBSTACLES = maxObstacle;
@@ -334,48 +341,6 @@ public class AnimationApplication
 	}
 	
 	/** 
-	  * Checks all active Player objects for collisions with members of a valid active object type, as specified
-	  * by a String argument, and takes necessary action if this is true. As of the current this method is not fully 
-	  * implemented. Valid arguments for String include "Obstacle", and "Collectible". Case matters.
-	  */
-	private void registerCollisionPlayer(String activeObjectType)
-	{	
-		if(activeObjectType == "Obstacle")
-		{
-			if (numActivePlayers > 0 & numActiveObstacles > 0)
-			{
-				for(int playerIndex = 0; playerIndex < activePlayerList.length; playerIndex++) // Run through each index of activePlayerList
-				{
-					//getPlayer(playerIndex).hasCollisionObstacle <AnimationApplication>
-					
-										
-				}
-			}
-		}
-		
-		else if(activeObjectType == "Collectible")
-		{
-			if (numActivePlayers > 0 & numActiveCollectibles > 0)
-			{
-				for(int playerIndex = 0; playerIndex < activePlayerList.length; playerIndex++) // Run through each index of activePlayerList
-				{
-					//getPlayer(playerIndex).hasCollisionCollectible <gameEngine> 
-					
-									
-				}
-			}
-		}
-		
-		else
-		{
-			System.out.println("ERROR: Please enter a valid String argument for");
-			System.out.println("the registerPlayerCollision method: " + "'" + activeObjectType + "'");
-			System.out.println("is not a valid argument.");
-			System.exit(0);	
-		}
-	}
-	
-	/** 
 	  * Returns Player object at specified index in activePlayerList.
 	  **/
 	public Player getPlayer(int index)
@@ -526,18 +491,115 @@ public class AnimationApplication
 		return activeIndexList;
 	}
 	
+	/**
+	  * Moves position of active obstacles.
+	  */
+	private void moveActiveObstacles()
+	{
+		int[] activeObstacleIndex = new int[0];
+		Obstacle currentObstacle = new Obstacle(0);
+		
+		if(numActiveObstacles > 0) // Make sure ther are more than 0 active.
+			{
+				// Get indexes of active obstacles.
+				activeObstacleIndex = stepThroughActive("Obstacle");
+				
+				// Move obstacles at those indexes.
+				for(int index = 0; index < activeObstacleIndex.length; index++)
+				{
+					currentObstacle = getObstacle(index);
+					currentObstacle.moveObstacle();
+				}
+			}
+	}
+	
+	/**
+	  * Moves position of active collectibles.
+	  */
+	private void moveActiveCollectibles()
+	{
+		int[] activeCollectibleIndex = new int[0];
+		Collectible currentCollectible = new Collectible(0);
+		
+		if(numActiveCollectibles > 0) // Make sure there are more than 0 active.
+			{
+				// Get indexes of active collectibles.
+				activeCollectibleIndex = stepThroughActive("Collectible");
+				
+				// Move collectibles at those indexes.
+				for(int index = 0; index < activeCollectibleIndex.length; index++)
+				{
+					currentCollectible = getCollectible(index);
+					currentCollectible.moveCollectible();
+				}
+			}
+	}
+	
+	/**
+	  * The following are a few notes about the main method implementation for DEMO 1.
+	  *
+	  * 1. The demo will consist of a series of screen outputs corresponding to active object 
+	  *    positions at each imagined frame of the game, followed by a prompt for user input that
+	  *    that will be used to control player movement.
+	  *
+	  * 2. Our game grid has a 30x10 nodes.
+	  *
+	  * 3. Because obstacles and collectibles will always start at x co-ordinate 30 (the right side of the screen), 
+	  *    we will only decide their y co-ordinate when instantiating. 
+	  *
+	  * 4. Player movement will be restricted to jumping between two positions: (0,10) and (0,0). 
+	  *
+      * 5. Every frame, active Obstacles and Collectibles will move one step closer to the left boundary of 
+	  *    the grid, but because collision detection has not been yet implemented, they will continue moving 
+	  *    past the left boundary into negative co-ordinates.
+	  */
 	public static void main(String[]args)
 	{
 		AnimationApplication gameEngine = new AnimationApplication(2,2,2,6);
+		
 		TextOutput printer = new TextOutput();
+		Scanner keyboard = new Scanner(System.in);
 		
-		gameEngine.makeObstacle(4);
+		// Instantiate objects for Demo 1.
+		gameEngine.makePlayer(0,0);
+		gameEngine.makeObstacle(0); 
+		gameEngine.makeObstacle(5); 
 		gameEngine.makeCollectible(3);
-		gameEngine.makePlayer(0,4);
-		gameEngine.makeObstacle(4);
-		gameEngine.makeCollectible(3);
-		gameEngine.makePlayer(0,4);
+		gameEngine.makeCollectible(2);
 		
-		printer.PrintActivePositions(gameEngine);
+		
+		Player playerOne = gameEngine.getPlayer(0); // The first instantiated player will always be
+													// be at index 0 therefore we can grab its reference 
+													// directly.
+													
+		char userInput; // Will be used to handle input for player movements.
+	
+		while(playerOne.IsAlive()) // Run game as long as playerOne is alive.
+		{
+			
+			// Game Instructions
+			System.out.println("");
+			System.out.println("Enter 'w' to move Player Up."); 
+			System.out.println("Enter 's' to move Player Down."); 
+			System.out.println("Enter any other character to remain still.");
+			
+			// Print out current positions of active objects.
+			System.out.println("");
+			printer.PrintActivePositions(gameEngine);
+			
+			// Move NPC active objects.
+			gameEngine.moveActiveCollectibles();
+			gameEngine.moveActiveObstacles();
+			
+			// Get user input for player movements.
+			System.out.println("");
+			System.out.println("");
+			System.out.print("YOUR MOVE:");
+			userInput = keyboard.next().charAt(0); 
+			playerOne.Move(userInput);
+			
+			// To separate from next frame output.
+			System.out.println("_______________________________________________");
+		}
 	}
 }
