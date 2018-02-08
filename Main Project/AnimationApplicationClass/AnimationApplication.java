@@ -1,12 +1,10 @@
-// By Mark Tremblay
-
-// 
-
 import java.util.Arrays;
 import java.util.Scanner;
 
 /**
-Version 27_8 February 6th
+Version 28 February 7th
+1. Works with TextOuput and has a little demonstration in main.
+2. I next iteration I will game run algorithm for Demo 1.
 */
 public class AnimationApplication
 {
@@ -29,8 +27,8 @@ public class AnimationApplication
 	Collectible[] activeCollectibleList; 
 	
 	/**
-	The following are the constructors for this class. 
-	*/
+	  * The following are the constructors for this class. 
+	  */
 	
 	public AnimationApplication()
 	{
@@ -530,7 +528,16 @@ public class AnimationApplication
 	
 	public static void main(String[]args)
 	{
+		AnimationApplication gameEngine = new AnimationApplication(2,2,2,6);
+		TextOutput printer = new TextOutput();
 		
+		gameEngine.makeObstacle(4);
+		gameEngine.makeCollectible(3);
+		gameEngine.makePlayer(0,4);
+		gameEngine.makeObstacle(4);
+		gameEngine.makeCollectible(3);
+		gameEngine.makePlayer(0,4);
 		
+		printer.PrintActivePositions(gameEngine);
 	}
 }
