@@ -11,7 +11,7 @@ public class TextOutput
 		activeObstacles = gameEngine.stepThroughActive("Obstacle");
 		activeCollectibles = gameEngine.stepThroughActive("Collectible");
 		
-		if(gameEngine.geNumPlayers() > 0)
+		if(gameEngine.getNumPlayers() > 0)
 		{
 			for(int index = 0; index < activePlayers.length; index++)
 			{
@@ -33,7 +33,7 @@ public class TextOutput
 		
 		System.out.println();
 		
-		if(gameEngine.getNumCollectibles > 0)
+		if(gameEngine.getNumCollectibles() > 0)
 		{
 			for(int index = 0; index < activeCollectibles.length; index++)
 			{
