@@ -17,6 +17,16 @@ public class Player
 		}
 	}
 
+	public int getXPosition()
+	{
+		return xValue;
+	}
+
+	public int getYPosition()
+	{
+		return yValue;
+	}
+
 	public void TakeDamage()
 	{
 		playerHealth -= 1;
@@ -29,7 +39,7 @@ public class Player
 			playerHealth += 1;
 		}
 	}
-	
+
 	public void Move(char move)
 	{
 		switch(move)
