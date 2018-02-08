@@ -3,3 +3,16 @@ Version 28 February 7th
 1. Works with TextOuput and has a little demonstration in main.
 2. I next iteration I will game run algorithm for Demo 1.
 */
+/**
+Version 29 February 7th_2
+1. Changed second constructor to make arguments in order:
+   maxPlayer, maxObstacle, maxCollectible, maxObject.
+   
+2. Removed useless register collision method.
+
+3. Created the game run algorithm for DEMO 1, and info about it above
+   the main method.
+
+4. Created methods called moveActiveObstacles() and  moveActiveCollectibles
+   to handle movement of active obstacles and collectibles.
+*/
