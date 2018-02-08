@@ -7,32 +7,34 @@ public class TextOutput
 
 	public void PrintActivePositions(AnimationApplication gameEngine)
 	{
-		if((gameEngine.getNumPlayers() <= 0) || (gameEngine.getNumObsticles() <= 0) || (gameEngine.getNumCollectibles() <= 0))
+		activePlayers = gameEngine.stepThroughActive("Player");
+		activeObstacles = gameEngine.stepThroughActive("Obstacle");
+		activeCollectibles = gameEngine.stepThroughActive("Collectible");
+		
+		if(gameEngine.geNumPlayers() > 0)
 		{
-			break;
-		}
-		else
-		{
-			activePlayers = gameEngine.stepThroughActive("Player");
-			activeObstacles = gameEngine.stepThroughActive("Obstacle");
-			activeCollectibles = gameEngine.stepThroughActive("Collectible");
-
 			for(int index = 0; index < activePlayers.length; index++)
 			{
 				System.out.print("Player" + index + "(x, y): " + gameEngine.getPlayer(activePlayers[index]).getXPosition() +
 				" " + gameEngine.getPlayer(activePlayers[index]).getYPosition() + " ");
 			}
-
-			System.out.println();
-
+		}
+		
+		System.out.println();
+		
+		if(gameEngine.getNumObstacles() > 0)
+		{
 			for(int index = 0; index < activeObstacles.length; index++)
 			{
 				System.out.print("Obstacle" + index + "(x, y): " + gameEngine.getObstacle(activeObstacles[index]).getXPosition() +
 				" " + gameEngine.getObstacle(activeObstacles[index]).getYPosition() + " ");
 			}
-
-			System.out.println();
-
+		}
+		
+		System.out.println();
+		
+		if(gameEngine.getNumCollectibles > 0)
+		{
 			for(int index = 0; index < activeCollectibles.length; index++)
 			{
 				System.out.print("Collectible" + index + "(x, y): " + gameEngine.getCollectible(activeCollectibles[index]).getXPosition() +
