@@ -1,7 +1,7 @@
 /**
 Assignment 4: Class SavingsAccount
 
-This a subclass of BankAccount which receives an monthly interest rate.
+This a subclass of BankAccount receives an monthly interest rate.
 
 Students: Ezra Guia, Wild Guevara, Brandon Fisher, Mark Tremblay
 Professor: Leanne Wu
@@ -10,7 +10,6 @@ Professor: Leanne Wu
 
 public class SavingsAccount extends BankAccount{
 	private double annualInterestRate; // Assumes a Positive %
-	private BankAccount bankAccount;
 
 /**
 Constructor using only the base class
@@ -30,13 +29,18 @@ Constructor using the base class with a given rate
 		else
 			System.println("Error");
 	}
-	
+
+
 /**
 Constructor using only the base class with a given rate and balance
 */
 	SavingsAccount(double balance, double rate) {
-		super (balance);
-		annualInterestRate = rate;
+		if (balance > 0 && rate > 0) {
+			super (balance);
+			annualInterestRate = rate;			
+		}
+		else
+			System.println("Error")
 	}
 
 /**
