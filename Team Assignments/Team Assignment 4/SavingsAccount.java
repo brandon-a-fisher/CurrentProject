@@ -26,8 +26,9 @@ Constructor using the base class with a given rate
 		if (rate > 0) {
 			super ();
 			annualInterestRate = rate;
+		}
 		else
-			System.println("Error")
+			System.println("Error");
 		}
 	}
 
