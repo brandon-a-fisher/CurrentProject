@@ -29,9 +29,8 @@ Constructor using the base class with a given rate
 		}
 		else
 			System.println("Error");
-		}
 	}
-
+	
 /**
 Constructor using only the base class with a given rate and balance
 */
