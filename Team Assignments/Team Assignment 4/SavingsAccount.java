@@ -8,18 +8,34 @@ Professor: Leanne Wu
 2018-02-14
 */
 
-public class SavingsAccount {
-	private double annualInterestRate;
+public class SavingsAccount extends BankAccount{
+	private double annualInterestRate; // Assumes a Positive %
 	private BankAccount bankAccount;
 
+	SavingsAccount () {
+		super ();
+	}
+	
+	SavingsAccount (double rate) {
+		super ();
+		annualInterestRate = rate;
+	}
+
 	SavingsAccount(double balance, double rate) {
-		bankAccount = new BankAccount (balance);
+		super (balance);
 		annualInterestRate = rate;
 	}
 
 	public void depositMonthlyInterest() {
-		double interest = (bankAccount.getBalance() *
-							(annualInterestRate / 100) );
-		bankAccount.deposit(interest);
+		double interest = (this.getBalance() * (annualInterestRate / 100) );
+		this.deposit(interest);
+	}
+	
+	public void setAnnualInterestRate (double newRate) {
+		annualInterestRate = newRate;
+	}
+	
+	public double getAnnualInterestRate () {
+		return annualInterestRate;
 	}
 }
