@@ -20,3 +20,6 @@ Version 29 February 7th_2
   * Version 30
   * 1. Auto formatted using netBeans IDE
   */
+  
+  Version 30_1
+  1. Made documentation clearer. Made javadoc compatible.
