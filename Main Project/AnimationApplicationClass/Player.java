@@ -27,7 +27,7 @@ public class Player
 		return yValue;
 	}
 
-	public void TakeDamage()
+	private void TakeDamage()
 	{
 		playerHealth -= 1;
 	}
@@ -42,6 +42,7 @@ public class Player
 
 	public void Move(char move)
 	{
+		
 		switch(move)
 		{
 			case 'w':
@@ -56,6 +57,34 @@ public class Player
 					this.yValue = 0;
 				}
 				break;
+			case 'd':
+				if(this.yValue > 0)
+				{
+					this.yValue = 0;
+				}
+				break;
+		}
+	}
+	public void checkObjectCollision()
+	{
+		Collectible[] activeCollectibleList = gameEngine.getActiveCollectibleList();
+		Obstacle[] activeObstacleList = gameEngine.getActiveObstacleList();
+		for(int index = 0; index < activeObstacleList.length; index++)
+		{
+			if((yValue == activeObstacleList[index].getYPosition()) &&
+			  xValue == activeObstacleList[index].getXPosition())
+			{
+				TakeDamage();	
+			}
+		}
+		
+		for(int index = 0; index < activeCollectibleList.length; index++)
+		{
+			if((yValue == activeCollectibleList[index].getYPosition()) &&
+			  xValue == activeCollectibleList[index].getXPosition())
+			{
+				Heal();	
+			}
 		}
 	}
 }
