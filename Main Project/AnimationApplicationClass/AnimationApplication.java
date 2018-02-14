@@ -1,7 +1,8 @@
 import java.util.Scanner;
 
 /**
- * Version 30_1 Feburary 12th...
+ * Version 30_2 Feburary 14th...
+ * 1. Added get methods for activeObjectLists.
  *
  * A new instance of this class is an AnimationApplication that handles the
  * instantiation, deletion, and organization of game objects; including
@@ -444,6 +445,33 @@ public class AnimationApplication {
 	 */
 	public int activePlayerLength() {
 		return MAX_ACTIVE_PLAYERS;
+	}
+	
+	/** Returns a list corresponding to the list of active Obstacles.
+	 * 
+	 * @return A copy of the activeObstacleList
+	 */
+	public Obstacle[] getActiveObstacleList()
+	{
+		return activeObstacleList;
+	}
+	
+	/** Returns a list corresponding to the list of active Collectibles.
+	 * 
+	 * @return A copy of the activeCollectibleList
+	 */
+	public Collectible[] getActiveCollectibleList()
+	{
+		return activeCollectibleList;
+	}
+	
+	/** Returns a list corresponding to the list of active Players.
+	 * 
+	 * @return A copy of the activePlayerList
+	 */
+	public Player[] getActivePlayerList()
+	{
+		return activePlayerList;
 	}
 
 	/**
