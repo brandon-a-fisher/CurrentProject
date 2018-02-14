@@ -41,20 +41,25 @@ public class Items {
 	{
 		return yValue;
 	}
-
+	
+	public void setIsAlive( boolean newAlive )
+	{
+		isAlive = newAlive;
+	}
+	
 	public boolean getIsAlive()
 	{
 		return isAlive;
 	}
 
-    public boolean checkHit(item[] itemArray, Player player)
+    public boolean checkHit(Items[] itemArray, Player player)
     {
     		for (int item = 0; item < itemArray.length; item++)
     		{
-        		if (player.getYPosition == itemArray[item].getYPosition &&
-            		player.getXPosition == itemArray[item].getXPosition)
+        		if ( player.getYPosition == itemArray[item].getYPosition() &&
+            		player.getXPosition == itemArray[item].getXPosition() )
             	
-            		itemArray[item].setIsAlive = false;
+            		itemArray[item].setIsAlive( false );
         			return true;
         }
     		
