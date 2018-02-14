@@ -3,6 +3,7 @@ import java.util.Scanner;
 /**
  * Version 30_3 Feburary 14th...
  * 1. Removed stepThroughActive method. Updated other methods to account.
+ * 2. Removed printActiveObjectList method was redundant with text output.
  *
  * A new instance of this class is an AnimationApplication that handles the
  * instantiation, deletion, and organization of game objects; including
@@ -127,75 +128,6 @@ public class AnimationApplication {
 				break;
 			}
 		}
-	}
-
-	/**
-	 * Prints to screen contents of an active object list corresponding to the
-	 * String given as an argument. Valid argument are as follows: "Obstacle",
-	 * "Collectible", and "Player". Case matters.
-	 *
-	 * @param whichList
-	 *            A String corresponding to one of the active object lists defined
-	 *            in this class. Valid arugments are as follows:
-	 *            "Obstacle","Player","Collectible". Case matters.
-	 */
-	public void printActiveObjectList(String whichList) {
-		boolean isObstacle = whichList.equals("Obstacle");
-		boolean isPlayer = whichList.equals("Player");
-		boolean isCollectible = whichList.equals("Collectible");
-
-		// Object list allows me store any of my Active Object Lists in this
-		// variable
-		Object[] listToPrint;
-
-		listToPrint = new Object[1];
-		String listName = "";
-		String typeName = "";
-		int numActive = 0;
-
-		if (isObstacle) {
-			listToPrint = activeObstacleList;
-			listName = "activeObstacleList";
-			typeName = "Obstacle";
-			numActive = numActiveObstacles;
-		} else if (isPlayer) {
-			listToPrint = activePlayerList;
-			listName = "activePlayerList";
-			typeName = "Player";
-			numActive = numActivePlayers;
-		} else if (isCollectible) {
-			listToPrint = activeCollectibleList;
-			listName = "activeCollectibleList";
-			typeName = "Collectible";
-			numActive = numActiveCollectibles;
-		} else {
-			System.out.println(
-					"ERROR: Please enter a valid String argument " + '\n' + "for the printActiveObjectList method: "
-							+ "'" + '\n' + whichList + "'" + "is not a valid argument.");
-			System.exit(0);
-		}
-
-		System.out.println("_________________________________________________");
-		System.out.print(listName + ": [");
-		// Step through list and print.
-		for (int index = 0; index < listToPrint.length; index++) {
-			if (listToPrint[index] != null) // If index not null print name.
-			{
-				System.out.print(listToPrint[index].getClass().getName());
-			} else // If index is null print that index as is.
-			{
-				System.out.print(listToPrint[index]);
-			}
-			// Check each time so we don't print comma for final index.
-			if (index != listToPrint.length - 1) {
-				System.out.print(" , ");
-			}
-		}
-		System.out.println("]");
-		System.out.println("");
-
-		System.out.println("Number of active " + typeName + "(s) is " + '\n' + numActive);
-		System.out.println("_________________________________________________");
 	}
 
 	/**
