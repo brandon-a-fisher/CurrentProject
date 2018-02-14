@@ -54,14 +54,18 @@ public class Items {
 
     public boolean checkHit(Items[] itemArray, Player player)
     {
-    		for (int item = 0; item < itemArray.length; item++)
+    		if ( itemArray.length > 0 )
     		{
-        		if ( player.getYPosition == itemArray[item].getYPosition() &&
-            		player.getXPosition == itemArray[item].getXPosition() )
+    			for (int item = 0; item < itemArray.length; item++)
+    			{
+    				if ( player.getYPosition == itemArray[item].getYPosition() &&
+    						player.getXPosition == itemArray[item].getXPosition() )
             	
-            		itemArray[item].setIsAlive( false );
-        			return true;
-        }
+    					itemArray[item].setIsAlive( false );
+        				return true;
+    			}
+    			return false;
+    		}
     		
     		return false;
     }
