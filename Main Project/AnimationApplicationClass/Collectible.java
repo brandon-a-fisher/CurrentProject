@@ -1,5 +1,3 @@
-package game;
-
 public class Collectible extends Items
 {
 	private static int generalHeight = 1;
