@@ -65,7 +65,7 @@ public class Player
 				break;
 		}
 	}
-	public void checkObjectCollision()
+	public void checkObjectCollision(AnimationApplication gameEngine)
 	{
 		Collectible[] activeCollectibleList = gameEngine.getActiveCollectibleList();
 		Obstacle[] activeObstacleList = gameEngine.getActiveObstacleList();
@@ -74,7 +74,8 @@ public class Player
 			if((yValue == activeObstacleList[index].getYPosition()) &&
 			  xValue == activeObstacleList[index].getXPosition())
 			{
-				TakeDamage();	
+				TakeDamage();
+				gameEngine.deleteObstacle(index);
 			}
 		}
 		
@@ -84,6 +85,7 @@ public class Player
 			  xValue == activeCollectibleList[index].getXPosition())
 			{
 				Heal();	
+				gameEngine.deleteCollectible(index);
 			}
 		}
 	}
