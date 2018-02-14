@@ -1,8 +1,8 @@
 import java.util.Scanner;
 
 /**
- * Version 30_2 Feburary 14th...
- * 1. Added get methods for activeObjectLists.
+ * Version 30_3 Feburary 14th...
+ * 1. Removed stepThroughActive method. Updated other methods to account.
  *
  * A new instance of this class is an AnimationApplication that handles the
  * instantiation, deletion, and organization of game objects; including
@@ -446,27 +446,27 @@ public class AnimationApplication {
 	public int activePlayerLength() {
 		return MAX_ACTIVE_PLAYERS;
 	}
-	
+
 	/** Returns a list corresponding to the list of active Obstacles.
-	 * 
+	 *
 	 * @return A copy of the activeObstacleList
 	 */
 	public Obstacle[] getActiveObstacleList()
 	{
 		return activeObstacleList;
 	}
-	
+
 	/** Returns a list corresponding to the list of active Collectibles.
-	 * 
+	 *
 	 * @return A copy of the activeCollectibleList
 	 */
 	public Collectible[] getActiveCollectibleList()
 	{
 		return activeCollectibleList;
 	}
-	
+
 	/** Returns a list corresponding to the list of active Players.
-	 * 
+	 *
 	 * @return A copy of the activePlayerList
 	 */
 	public Player[] getActivePlayerList()
@@ -475,92 +475,21 @@ public class AnimationApplication {
 	}
 
 	/**
-	 * Steps through any active object list corresponding to the String argument and
-	 * returns a list of the indexes which are not null (the ones containing a
-	 * reference). An ERROR message appears and system exits if you try to step
-	 * through a list with only null elements. Can be used with getPlayer,
-	 * getObstacle and getCollectible to get references to active objects by
-	 * generating a list of indexes corresponding to references in one of the active
-	 * object lists and using those indexes as arguments in the getter methods.
-	 * Should also be used with deletePlayer, deleteObstacle and deleteCollectible.
-	 * Valid arguments include "Obstacle", "Player", and "Collectible". Case
-	 * matters.
-	 *
-	 * @param whichList
-	 *            A String corresponding to one of the active object lists defined
-	 *            in this class. Valid arugments are as follows:
-	 *            "Obstacle","Player","Collectible". Case matters.
-	 * @return Returns a int[] of the indexes of references stored in the list
-	 *         corresponding to the String argument.
-	 */
-	public int[] stepThroughActive(String whichList) {
-		Object[] objectList;
-		// Array size is arbitrary just need to initialize.
-		objectList = new Object[0];
-
-		if (whichList.equals("Player")) {
-			objectList = activePlayerList;
-		} else if (whichList.equals("Obstacle")) {
-			objectList = activeObstacleList;
-		} else if (whichList.equals("Collectible")) {
-			objectList = activeCollectibleList;
-		} else {
-			System.out.println("ERROR: Please enter a valid String argument " + '\n'
-					+ "for the stepThroughActive method: " + "'" + '\n' + whichList + "'" + "is not a valid argument.");
-			System.exit(0);
-		}
-
-		int arraySize = 0;
-		int[] activeIndexList;
-		int activeIndexIndex = 0;
-
-		// First we'll use a loop to check how many indexes
-		// are actually active so we can set size of int[]
-		// to store indexes.
-		for (int objectIndex = 0; objectIndex < objectList.length; objectIndex++) {
-			if (objectList[objectIndex] != null) {
-				arraySize++;
-			}
-		}
-
-		activeIndexList = new int[arraySize];
-
-		// Make sure there is at least one active object.
-		if (arraySize <= 0) {
-			System.out.println("ERROR: Tried to step through list with only" + '\n'
-					+ "null indexes while using stepThroughActive()");
-			System.exit(0);
-		}
-
-		// Now that we have the correct array size we'll run
-		// through the object list again, but append the indexes
-		// for active objects into the activeIndexList.
-		for (int objectIndex = 0; objectIndex < objectList.length; objectIndex++) {
-			if (objectList[objectIndex] != null) {
-				activeIndexList[activeIndexIndex] = objectIndex;
-				activeIndexIndex++;
-			}
-		}
-
-		return activeIndexList;
-	}
-
-	/**
 	 * Moves position of active obstacles by an increment of 1.
 	 */
-	private void moveActiveObstacles() {
-		int[] activeObstacleIndex = new int[0];
+	private void updateActiveObstacles() {
+		Obstacle[] activeList = getActiveObstacleList();
 		Obstacle currentObstacle = new Obstacle(0);
 
 		if (numActiveObstacles > 0) // Make sure there are more than 0 active.
 		{
-			// Get indexes of active obstacles.
-			activeObstacleIndex = stepThroughActive("Obstacle");
 
-			// Move obstacles at those indexes.
-			for (int index = 0; index < activeObstacleIndex.length; index++) {
-				currentObstacle = getObstacle(index);
-				currentObstacle.moveObstacle();
+			// Move all obstacles in list.
+			for (int index = 0; index < activeList.length; index++) {
+				if(activeList[index]!=null){
+					currentObstacle = getObstacle(index);
+					currentObstacle.moveObstacle();
+				}
 			}
 		}
 	}
@@ -568,22 +497,22 @@ public class AnimationApplication {
 	/**
 	 * Moves position of active collectibles by an increment of 1.
 	 */
-	private void moveActiveCollectibles() {
-		int[] activeCollectibleIndex = new int[0];
-		Collectible currentCollectible = new Collectible(0);
+	 private void updateActiveCollectibles() {
+ 		Collectible[] activeList = getActiveCollectibleList();
+ 		Collectible currentCollectible = new Collectible(0);
 
-		if (numActiveCollectibles > 0) // Make sure there are more than 0 active.
-		{
-			// Get indexes of active collectibles.
-			activeCollectibleIndex = stepThroughActive("Collectible");
+ 		if (numActiveCollectibles > 0) // Make sure there are more than 0 active.
+ 		{
 
-			// Move collectibles at those indexes.
-			for (int index = 0; index < activeCollectibleIndex.length; index++) {
-				currentCollectible = getCollectible(index);
-				currentCollectible.moveCollectible();
-			}
-		}
-	}
+ 			// Move all Collectibles in list.
+ 			for (int index = 0; index < activeList.length; index++) {
+ 				if(activeList[index]!=null){
+ 					currentCollectible = getCollectible(index);
+ 					currentCollectible.moveCollectible();
+ 				}
+ 			}
+ 		}
+ 	}
 
 	/**
 	 * Main application algorithm.
@@ -615,7 +544,7 @@ public class AnimationApplication {
 	public static void main(String[] args) {
 		AnimationApplication gameEngine = new AnimationApplication(2, 2, 2, 6);
 
-		TextOutput printer = new TextOutput();
+		//TextOutput printer = new TextOutput();
 		Scanner keyboard = new Scanner(System.in);
 
 		// Instantiate objects for Demo 1.
@@ -643,11 +572,11 @@ public class AnimationApplication {
 
 			// Print out current positions of active objects.
 			System.out.println("");
-			printer.PrintActivePositions(gameEngine);
+			//printer.PrintActivePositions(gameEngine);
 
 			// Move NPC active objects.
-			gameEngine.moveActiveCollectibles();
-			gameEngine.moveActiveObstacles();
+			gameEngine.updateActiveCollectibles();
+			gameEngine.updateActiveObstacles();
 
 			// Get user input for player movements.
 			System.out.println("");
