@@ -13,7 +13,7 @@ public class Collectible extends Items
 		super( YValue, generalHeight, generalLength );
 	}
 	
-	public void collision( item[] itemArray, Player player )
+	public void collision( Items[] itemArray, Player player )
 	{
 		if ( super.checkHit(itemArray, player) )
 			player.Heal();
