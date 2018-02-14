@@ -1,20 +1,19 @@
 
 public class TextOutput
 {
-	public int[] activePlayers = new int[0];
-	public int[] activeObstacles = new int[0];
-	public int[] activeCollectibles = new int[0];
-
 	public void PrintActivePositions(AnimationApplication gameEngine)
 	{
 		
 		if(gameEngine.getNumPlayers() > 0)
 		{
-			activePlayers = gameEngine.stepThroughActive("Player");
-			for(int index = 0; index < activePlayers.length; index++)
+			Player[] activePLayerList = gameEngine.getActivePlayerList();
+			for(int index = 0; index < activePLayerList.length; index++)
 			{
-				System.out.print("Player" + index + "(x, y): " + gameEngine.getPlayer(activePlayers[index]).getXPosition() +
-				" " + gameEngine.getPlayer(activePlayers[index]).getYPosition() + " ");
+				if(activePLayerList[index] != null)
+				{
+					System.out.print("Player " + index + "(x, y): " + activePLayerList[index].getXPosition() +
+				" " + activePLayerList[index].getYPosition() + " ");
+				}
 			}
 		}
 		
@@ -22,11 +21,15 @@ public class TextOutput
 		
 		if(gameEngine.getNumObstacles() > 0)
 		{
-			activeObstacles = gameEngine.stepThroughActive("Obstacle");
-			for(int index = 0; index < activeObstacles.length; index++)
+
+			Obstacle[] activeObstacleList = gameEngine.getActiveObstacleList();
+			for(int index = 0; index < activeObstacleList.length; index++)
 			{
-				System.out.print("Obstacle" + index + "(x, y): " + gameEngine.getObstacle(activeObstacles[index]).getXPosition() +
-				" " + gameEngine.getObstacle(activeObstacles[index]).getYPosition() + " ");
+				if(activeObstacleList[index] != null)
+				{
+					System.out.print("Obstacle " + index + "(x, y): " + activeObstacleList[index].getXPosition() +
+				" " + activeObstacleList[index].getYPosition() + " ");
+				}
 			}
 		}
 		
@@ -34,11 +37,14 @@ public class TextOutput
 		
 		if(gameEngine.getNumCollectibles() > 0)
 		{
-			activeCollectibles = gameEngine.stepThroughActive("Collectible");
-			for(int index = 0; index < activeCollectibles.length; index++)
+			Collectible[] activeCollectibleList = gameEngine.getActiveCollectibleList();
+			for(int index = 0; index < activeCollectibleList.length; index++)
 			{
-				System.out.print("Collectible" + index + "(x, y): " + gameEngine.getCollectible(activeCollectibles[index]).getXPosition() +
-				 " " + gameEngine.getCollectible(activeCollectibles[index]).getYPosition() + " ");
+				if(activeCollectibleList[index] != null)
+				{
+					System.out.print("Collectible " + index + "(x, y): " + activeCollectibleList[index].getXPosition() +
+				" " + activeCollectibleList[index].getYPosition() + " ");
+				}
 			}
 		}
 	}
