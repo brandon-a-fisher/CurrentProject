@@ -64,9 +64,7 @@ public class Items {
     					itemArray[item].setIsAlive( false );
         				return true;
     			}
-    			return false;
     		}
-    		
     		return false;
     }
 	
