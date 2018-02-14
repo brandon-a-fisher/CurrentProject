@@ -1,20 +1,20 @@
 public class Items {
 	private boolean isAlive = true;
-		
+
 	private int xValue = 30;
 	private int yValue;
 
 	private int length;
 	private int height;
-	
+
 	public Items( int newYValue, int newLength, int newHeight )
 	{
 		yValue = newYValue;
-		
+
 		length = newLength;
 		height = newHeight;
 	}
-	
+
 	public void moveItem()
 	{
 		xValue--;
@@ -23,28 +23,28 @@ public class Items {
 	public void setXPosition( int newXValue )
 	{
 		xValue = newXValue;
-	}	
+	}
 
 	public int getXPosition()
 	{
 		return xValue;
 	}
-	
+
 	public void setYPosition( int newYValue )
 	{
 		yValue = newYValue;
 	}
-	
+
 	public int getYPosition()
 	{
 		return yValue;
 	}
-	
+
 	public void setIsAlive( boolean newAlive )
 	{
 		isAlive = newAlive;
 	}
-	
+
 	public boolean getIsAlive()
 	{
 		return isAlive;
@@ -58,22 +58,22 @@ public class Items {
     			{
     				if ( player.getYPosition() == itemArray[item].getYPosition() &&
     						player.getXPosition() == itemArray[item].getXPosition() )
-            	
+
     					itemArray[item].setIsAlive( false );
         				return true;
     			}
     		}
     		return false;
     }
-	
-	public static boolean checkGone()
+
+	public boolean checkGone()
 	{
 		if ( xValue < 0 )
 		{
 			isAlive = false;
 			return true;
 		}
-		
+
 		else
 		{
 			isAlive = true;
