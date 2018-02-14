@@ -1,5 +1,3 @@
-package game;
-
 public class Items {
 	private boolean isAlive = true;
 		
