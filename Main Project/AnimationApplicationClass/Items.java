@@ -64,7 +64,7 @@ public class Items {
     			}
 				return true;
     		}
-
+			return false;
     }
 
 	public boolean checkGone()
