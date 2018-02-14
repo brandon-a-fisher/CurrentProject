@@ -50,7 +50,7 @@ public class Items {
 		return isAlive;
 	}
 
-    public boolean checkHit(Items[] itemArray, Player player)
+    public static boolean checkHit(Items[] itemArray, Player player)
     {
     		if ( itemArray.length > 0 )
     		{
@@ -66,7 +66,7 @@ public class Items {
     		return false;
     }
 	
-	public boolean checkGone()
+	public static boolean checkGone()
 	{
 		if ( xValue < 0 )
 		{
