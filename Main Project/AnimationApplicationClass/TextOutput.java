@@ -6,13 +6,13 @@ public class TextOutput
 
 		if(gameEngine.getNumPlayers() > 0)
 		{
-			Player[] activePLayerList = gameEngine.getActivePlayerList();
-			for(int index = 0; index < activePLayerList.length; index++)
+			Player[] activePlayerList = gameEngine.getActivePlayerList();
+			for(int index = 0; index < activePlayerList.length; index++)
 			{
-				if(activePLayerList[index] != null)
+				if(activePlayerList[index] != null)
 				{
-					System.out.print("Player " + index + " (x, y):" + activePlayerList[index].getXPosition() + 
-					" " + activePlayerList[index].getYPosition() + "Health: " + activePLayerList[index].getPlayerHealth());
+					System.out.print("Player " + index + " (x, y):" + activePlayerList[index].getXPosition() +
+					" " + activePlayerList[index].getYPosition() + "Health: " + activePlayerList[index].getPlayerHealth());
 				}
 			}
 		}
