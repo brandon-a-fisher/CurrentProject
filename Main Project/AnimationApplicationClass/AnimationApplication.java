@@ -1,16 +1,15 @@
 import java.util.Scanner;
 
 /**
- * Version 30_3 Feburary 14th...
- * 1. Removed stepThroughActive method. Updated other methods to account.
- * 2. Removed printActiveObjectList method was redundant with text output.
+ * Version 30_4 Feburary 14th...
+ *
  *
  * A new instance of this class is an AnimationApplication that handles the
  * instantiation, deletion, and organization of game objects; including
  * Obstacles, Collectibles, and Players. References to active objects are
  * maintained in arrays corresponding to objects that the AnimationApplication
- * has instantiated; using make methods to do so. There are also methods defined
- * to aid in the passing of data from the objects referenced in the arrays to
+ * has instantiated; using make methods to do so. There are also getter methods
+ * defined to pass data from the objects referenced in the arrays to
  * other classes. Finally, the main method contains an algorithm that will run
  * the application, utilizing all the classes for the game, either directly or
  * indirectly. A few extra methods have been created specifically to help
@@ -133,7 +132,8 @@ public class AnimationApplication {
 	/**
 	 * Instantiates an Obstacle at the specified y coordinate on the screen. The x
 	 * coordinate is set to a default in the Obstacle class. Adds reference to new
-	 * Obstacle to the activeObstacleList.
+	 * Obstacle to the activeObstacleList. Increments number active for this object
+	 * type.
 	 *
 	 * @param ypos
 	 *            An integer representing a y co-ordinate on the screen.
@@ -146,20 +146,13 @@ public class AnimationApplication {
 			Obstacle obstacleObject = new Obstacle(ypos, 1, 1);
 			numActiveObstacles++;
 			addToActiveObstacleList(obstacleObject);
-
-			// NOTE: Since obstacleObject is local to this method,
-			// when this method is complete the only reference
-			// to the new Obstacle object is the index we set it to in the
-			// Obstacle[] instance variable activeObstacleList. Therefore
-			// when we remove this reference in deleteObstacle, Java will
-			// reallocate the memory for the unreferenced object, preventing
-			// garbage data building up. Same goes for other make methods.
 		}
 	}
 
 	/**
 	 * Instantiates a Player at the specified x and y coordinates on the screen.
-	 * Adds reference to new Player to the activePlayerList.
+	 * Adds reference to new Player to the activePlayerList. Increments number
+	 * active for this object type.
 	 *
 	 * @param xPos
 	 *            An integer representing an x coordinate on the screen.
@@ -180,7 +173,8 @@ public class AnimationApplication {
 	/**
 	 * Instantiates a Collectible at the specified y coordinate on the screen. The x
 	 * coordinate is set to a default in the Collectible class. Adds reference to
-	 * new Collectible to the activeCollectibleList.
+	 * new Collectible to the activeCollectibleList. Increments number active for
+	 * this object type.
 	 *
 	 * @param yPos
 	 *            An integer representing a y co-ordinate on the screen.
@@ -199,7 +193,8 @@ public class AnimationApplication {
 	/**
 	 * Deletes an Obstacle at a specified index of the activeObstacleList. A null
 	 * value takes the place of the reference to the object in the
-	 * activeObstacleList, thus removing all references to the object.
+	 * activeObstacleList, thus removing all references to the object. Decrements
+	 * number active for this object type.
 	 *
 	 * @param index
 	 *            An integer index corresponding to a reference in the
@@ -227,7 +222,7 @@ public class AnimationApplication {
 	/**
 	 * Deletes a Player at a specified index of the activePlayerList. A null value
 	 * takes the place of the reference to the object in the activePlayerList, thus
-	 * removing all references to the object.
+	 * removing all references to the object. Decrements number active for this object type.
 	 *
 	 * @param index
 	 *            An integer index corresponding to a reference in the
@@ -255,7 +250,8 @@ public class AnimationApplication {
 	/**
 	 * Deletes a Collectible at a specified index of the activeCollectibleList. A
 	 * null value takes the place of the reference to the object in the
-	 * activeCollectibleList, thus removing all references to the object.
+	 * activeCollectibleList, thus removing all references to the object. Decrements
+	 * number active for this object type.
 	 *
 	 * @param index
 	 *            An integer index corresponding to a reference in the
@@ -318,9 +314,7 @@ public class AnimationApplication {
 
 	/**
 	 * Returns integer value of the number of active Collectible. If none are
-	 * active, return will be 0. Should be used to ensure proper input for
-	 * stepThroughActive, as it cannot return indexes for a list with only null
-	 * elements.
+	 * active, return will be 0.
 	 *
 	 * @return An integer corresponding to the number of active Collectible.
 	 */
@@ -330,9 +324,7 @@ public class AnimationApplication {
 
 	/**
 	 * Returns integer value of the number of active Obstacle. If none are active,
-	 * return will be 0. Should be used to ensure proper input for
-	 * stepThroughActive, as it cannot return indexes for a list with only null
-	 * elements.
+	 * return will be 0.
 	 *
 	 * @return An integer corresponding to the number of active Obstacle.
 	 */
@@ -342,9 +334,7 @@ public class AnimationApplication {
 
 	/**
 	 * Returns integer value of the number of active Player. If none are active,
-	 * return will be 0. Should be used to ensure proper input for
-	 * stepThroughActive, as it cannot return indexes for a list with only null
-	 * elements.
+	 * return will be 0.
 	 *
 	 * @return An integer corresponding to the number of active Player.
 	 */
@@ -446,36 +436,8 @@ public class AnimationApplication {
  		}
  	}
 
-	private void registerCollision(){
-
-
-
-
-	}
-
-	/**
+   /**
 	 * Main application algorithm.
-	 *
-	 * The following are a few notes about the main method implementation for DEMO
-	 * 1.
-	 *
-	 * 1. The demo will consist of a series of screen outputs corresponding to
-	 * active object positions at each imagined frame of the game, followed by a
-	 * prompt for user input that that will be used to control player movement.
-	 *
-	 * 2. Our game grid has a 30x10 nodes.
-	 *
-	 * 3. Because obstacles and collectibles will always start at x co-ordinate 30
-	 * (the right side of the screen), we will only decide their y co-ordinate when
-	 * instantiating.
-	 *
-	 * 4. Player movement will be restricted to jumping between two positions:
-	 * (0,10) and (0,0).
-	 *
-	 * 5. Every frame, active Obstacles and Collectibles will move one step closer
-	 * to the left boundary of the grid, but because collision detection has not
-	 * been yet implemented, they will continue moving past the left boundary into
-	 * negative co-ordinates.
 	 *
 	 * @param args
 	 *            ...
@@ -490,7 +452,7 @@ public class AnimationApplication {
 		gameEngine.makePlayer(0, 0);
 		gameEngine.makeObstacle(0);
 		gameEngine.makeObstacle(5);
-		gameEngine.makeCollectible(0);
+		gameEngine.makeCollectible(1);
 		gameEngine.makeCollectible(2);
 
 		// The first instantiated player will always be
