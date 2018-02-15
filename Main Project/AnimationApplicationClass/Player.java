@@ -16,6 +16,10 @@ public class Player
 			return true;
 		}
 	}
+	public int getPlayerHealth()
+	{
+		return playerHealth;
+	}
 
 	public int getXPosition()
 	{
