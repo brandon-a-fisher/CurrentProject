@@ -205,7 +205,7 @@ public class AnimationApplication {
 	 *            An integer index corresponding to a reference in the
 	 *            activeObstacleList.
 	 */
-	private void deleteObstacle(int index) {
+	public void deleteObstacle(int index) {
 		if (index < activeObstacleList.length && index >= 0) {
 			// So we can't make numActivePlayers a negative value by
 			// making null indexes null and decrementing numActive.
@@ -233,7 +233,7 @@ public class AnimationApplication {
 	 *            An integer index corresponding to a reference in the
 	 *            activePlayerList.
 	 */
-	private void deletePlayer(int index) {
+	public void deletePlayer(int index) {
 		if (index < activePlayerList.length && index >= 0) {
 			// So we can't make numActivePlayers a negative value by
 			// making null indexes null and decrementing numActive.
@@ -261,7 +261,7 @@ public class AnimationApplication {
 	 *            An integer index corresponding to a reference in the
 	 *            activeCollectibleList.
 	 */
-	private void deleteCollectible(int index) {
+	public void deleteCollectible(int index) {
 		// So we can't make numActiveCollectibles a negative value by
 		// making null indexes null and decrementing numActive.
 		if (index < activeCollectibleList.length && index >= 0) {
@@ -420,7 +420,7 @@ public class AnimationApplication {
 			for (int index = 0; index < activeList.length; index++) {
 				if(activeList[index]!=null){
 					currentObstacle = getObstacle(index);
-					currentObstacle.moveObstacle();
+					currentObstacle.moveItem();
 				}
 			}
 		}
@@ -440,11 +440,18 @@ public class AnimationApplication {
  			for (int index = 0; index < activeList.length; index++) {
  				if(activeList[index]!=null){
  					currentCollectible = getCollectible(index);
- 					currentCollectible.moveCollectible();
+ 					currentCollectible.moveItem();
  				}
  			}
  		}
  	}
+
+	private void registerCollision(){
+
+
+
+
+	}
 
 	/**
 	 * Main application algorithm.
@@ -476,14 +483,14 @@ public class AnimationApplication {
 	public static void main(String[] args) {
 		AnimationApplication gameEngine = new AnimationApplication(2, 2, 2, 6);
 
-		//TextOutput printer = new TextOutput();
+		TextOutput printer = new TextOutput();
 		Scanner keyboard = new Scanner(System.in);
 
 		// Instantiate objects for Demo 1.
 		gameEngine.makePlayer(0, 0);
 		gameEngine.makeObstacle(0);
 		gameEngine.makeObstacle(5);
-		gameEngine.makeCollectible(3);
+		gameEngine.makeCollectible(0);
 		gameEngine.makeCollectible(2);
 
 		// The first instantiated player will always be
@@ -504,7 +511,7 @@ public class AnimationApplication {
 
 			// Print out current positions of active objects.
 			System.out.println("");
-			//printer.PrintActivePositions(gameEngine);
+			printer.PrintActivePositions(gameEngine);
 
 			// Move NPC active objects.
 			gameEngine.updateActiveCollectibles();
@@ -516,6 +523,8 @@ public class AnimationApplication {
 			System.out.print("YOUR MOVE:");
 			userInput = keyboard.next().charAt(0);
 			playerOne.Move(userInput);
+
+			playerOne.checkObjectCollision(gameEngine);
 
 			// To separate from next frame output.
 			System.out.println("____________________________________________");
