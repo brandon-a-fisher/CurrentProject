@@ -16,6 +16,6 @@ public class Obstacle extends Items
 	public void collision( Items[] itemArray, Player player )
 	{
 		if ( super.checkHit(itemArray, player) )
-			player.TakeDamage();
+			
 	}
 }
