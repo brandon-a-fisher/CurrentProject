@@ -3,7 +3,7 @@ public class TextOutput
 {
 	public void PrintActivePositions(AnimationApplication gameEngine)
 	{
-		
+
 		if(gameEngine.getNumPlayers() > 0)
 		{
 			Player[] activePLayerList = gameEngine.getActivePlayerList();
@@ -15,9 +15,9 @@ public class TextOutput
 				}
 			}
 		}
-		
+
 		System.out.println();
-		
+
 		if(gameEngine.getNumObstacles() > 0)
 		{
 
@@ -31,9 +31,9 @@ public class TextOutput
 				}
 			}
 		}
-		
+
 		System.out.println();
-		
+
 		if(gameEngine.getNumCollectibles() > 0)
 		{
 			Collectible[] activeCollectibleList = gameEngine.getActiveCollectibleList();
