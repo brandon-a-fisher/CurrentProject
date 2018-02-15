@@ -11,8 +11,7 @@ public class TextOutput
 			{
 				if(activePLayerList[index] != null)
 				{
-					System.out.print("Player " + index + "(x, y): " + activePLayerList[index].getXPosition() +
-				" " + activePLayerList[index].getYPosition() + " ");
+					System.out.print("Player " + index + "Health: " + activePLayerList[index].getPlayerHealth);
 				}
 			}
 		}
