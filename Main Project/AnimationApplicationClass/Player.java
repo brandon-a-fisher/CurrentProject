@@ -46,7 +46,7 @@ public class Player
 
 	public void Move(char move)
 	{
-		
+
 		switch(move)
 		{
 			case 'w':
@@ -85,7 +85,7 @@ public class Player
 				}
 			}
 		}
-		
+
 		for(int index = 0; index < activeCollectibleList.length; index++)
 		{
 			if(activeCollectibleList[index] != null)
@@ -93,7 +93,7 @@ public class Player
 				if((yValue == activeCollectibleList[index].getYPosition()) &&
 				  xValue == activeCollectibleList[index].getXPosition())
 				{
-					Heal();	
+					Heal();
 					gameEngine.deleteCollectible(index);
 				}
 			}
