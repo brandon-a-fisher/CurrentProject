@@ -13,9 +13,4 @@ public class Obstacle extends Items
 		super( YValue, generalHeight, generalLength );
 	}
 
-	public void collision( Items[] itemArray, Player player )
-	{
-		if ( super.checkHit(itemArray, player) )
-			
-	}
 }
