@@ -11,7 +11,8 @@ public class TextOutput
 			{
 				if(activePLayerList[index] != null)
 				{
-					System.out.print("Player " + index + "Health: " + activePLayerList[index].getPlayerHealth());
+					System.out.print("Player " + index + " (x, y):" + activePlayerList[index].getXPosition() + 
+					" " + activePlayerList[index].getYPosition() + "Health: " + activePLayerList[index].getPlayerHealth());
 				}
 			}
 		}
@@ -27,7 +28,7 @@ public class TextOutput
 				if(activeObstacleList[index] != null)
 				{
 					System.out.print("Obstacle " + index + "(x, y): " + activeObstacleList[index].getXPosition() +
-				" " + activeObstacleList[index].getYPosition() + " ");
+					" " + activeObstacleList[index].getYPosition() + " ");
 				}
 			}
 		}
@@ -42,7 +43,7 @@ public class TextOutput
 				if(activeCollectibleList[index] != null)
 				{
 					System.out.print("Collectible " + index + "(x, y): " + activeCollectibleList[index].getXPosition() +
-				" " + activeCollectibleList[index].getYPosition() + " ");
+					" " + activeCollectibleList[index].getYPosition() + " ");
 				}
 			}
 		}
