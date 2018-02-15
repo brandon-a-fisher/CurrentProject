@@ -71,21 +71,27 @@ public class Player
 		Obstacle[] activeObstacleList = gameEngine.getActiveObstacleList();
 		for(int index = 0; index < activeObstacleList.length; index++)
 		{
-			if((yValue == activeObstacleList[index].getYPosition()) &&
-			  xValue == activeObstacleList[index].getXPosition())
+			if(activeObstacleList[index] != null)
 			{
-				TakeDamage();
-				gameEngine.deleteObstacle(index);
+				if((yValue == activeObstacleList[index].getYPosition()) &&
+			  	xValue == activeObstacleList[index].getXPosition())
+				{
+					TakeDamage();
+					gameEngine.deleteObstacle(index);
+				}
 			}
 		}
 		
 		for(int index = 0; index < activeCollectibleList.length; index++)
 		{
-			if((yValue == activeCollectibleList[index].getYPosition()) &&
-			  xValue == activeCollectibleList[index].getXPosition())
+			if(activeCollectibleList[index] != null)
 			{
-				Heal();	
-				gameEngine.deleteCollectible(index);
+				if((yValue == activeCollectibleList[index].getYPosition()) &&
+				  xValue == activeCollectibleList[index].getXPosition())
+				{
+					Heal();	
+					gameEngine.deleteCollectible(index);
+				}
 			}
 		}
 	}
