@@ -44,9 +44,6 @@ public class Main extends Application
     		double playerRightEdge = (xPlayer + lengthPlayer);
     		double playerLowerEdge = (yPlayer + heightPlayer);
     		
-    		System.out.println( obstacleLowerEdge );
-    		System.out.println( "Player lower edge: " + playerLowerEdge );
-    		
     		//The following checks for bottom left corner collision:
     		if ((( playerLeftEdge <= obstacleRightEdge ) && (playerLeftEdge >= obstacleLeftEdge)) && (( playerLowerEdge <= obstacleUpperEdge ) && (playerLowerEdge >= obstacleLowerEdge)))
     			{
@@ -139,7 +136,10 @@ public class Main extends Application
 				gc.drawImage(background, 0, 0);
 				gc.drawImage(chair, xPlayer, yPlayer);
 				gc.drawImage(obstacle, xObstacle, yObstacle);
+				gc.drawImage(life, 800, 10);
 				gc.drawImage(life, 750, 10);
+				gc.drawImage(life, 700, 10);
+				gc.drawImage(life, 650, 10);
 				if( hasHit() == true)
 				{
 					System.out.println("HIT");
