@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 
 public class Main extends Application 
 {
+	private int amountOfLives = 4;
+	
 	static int width = 864;
 	static int height = 575;
 	
@@ -43,18 +45,32 @@ public class Main extends Application
     		double playerLeftEdge = xPlayer;
     		double playerRightEdge = (xPlayer + lengthPlayer);
     		double playerLowerEdge = (yPlayer + heightPlayer);
-    		
-    		//The following checks for bottom left corner collision:
-    		if ((( playerLeftEdge <= obstacleRightEdge ) && (playerLeftEdge >= obstacleLeftEdge)) && (( playerLowerEdge <= obstacleUpperEdge ) && (playerLowerEdge >= obstacleLowerEdge)))
+
+    		if ((playerLeftEdge <= obstacleRightEdge) && (playerLeftEdge >= obstacleLeftEdge))
+    		{
+    			if ((playerLowerEdge <= obstacleLowerEdge) && (playerLowerEdge >= obstacleUpperEdge))
     			{
     				return true;
     			}
+    			
+    			else
+    			{
+    				return false;
+    			}
+    		}
     		
-    		//The following checks for bottom right corner collision:
-    		else if ((( playerRightEdge <= obstacleRightEdge) && (playerRightEdge >= obstacleLeftEdge)) && (( playerLowerEdge <= obstacleUpperEdge) && (playerLowerEdge >= obstacleLowerEdge)))
+    		else if ((playerRightEdge <= obstacleRightEdge ) && (playerRightEdge >= obstacleLeftEdge))
+    		{	
+    			if ((playerLowerEdge <= obstacleLowerEdge) && (playerLowerEdge >= obstacleUpperEdge))
     			{
     				return true;
     			}
+    			
+    			else
+    			{
+    				return false;
+    			}
+    		}
     		
     		else
     		{
@@ -136,13 +152,19 @@ public class Main extends Application
 				gc.drawImage(background, 0, 0);
 				gc.drawImage(chair, xPlayer, yPlayer);
 				gc.drawImage(obstacle, xObstacle, yObstacle);
-				gc.drawImage(life, 800, 10);
-				gc.drawImage(life, 750, 10);
-				gc.drawImage(life, 700, 10);
-				gc.drawImage(life, 650, 10);
+				
+				for( int i = amountOfLives - 1; i >= 0; i-- )
+					gc.drawImage(life, 650 + (i*50), 10);
+				
 				if( hasHit() == true)
 				{
-					System.out.println("HIT");
+					xObstacle += 1100;
+					amountOfLives -= 1;
+				}
+				
+				if( amountOfLives == 0)
+				{
+					System.exit(0);
 				}
 			}
 		}.start();
