@@ -1,0 +1,155 @@
+package application;
+	
+import javafx.animation.AnimationTimer;
+import javafx.application.Application;
+import javafx.event.EventHandler;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
+import javafx.stage.Stage;
+
+public class Main extends Application 
+{
+	static int width = 864;
+	static int height = 575;
+	
+	private double xPlayer = 10;
+	private double yPlayer = 290;
+	
+	final double lengthPlayer = 150;
+	final double heightPlayer = 269;
+	
+	private double xObstacle = 900;
+	private double yObstacle = 450;
+	
+	final double lengthObstacle = 100;
+	final double heightObstacle = 125;
+	
+    static Image chair;
+    static Image background;
+    static Image obstacle;
+    static Image life;
+    
+    public Boolean hasHit()
+    {
+    		double obstacleLeftEdge = xObstacle;
+    		double obstacleRightEdge = (xObstacle + lengthObstacle);
+    		double obstacleUpperEdge = yObstacle;
+    		double obstacleLowerEdge = (yObstacle + heightObstacle);
+    		
+    		double playerLeftEdge = xPlayer;
+    		double playerRightEdge = (xPlayer + lengthPlayer);
+    		double playerLowerEdge = (yPlayer + heightPlayer);
+    		
+    		System.out.println( obstacleLowerEdge );
+    		System.out.println( "Player lower edge: " + playerLowerEdge );
+    		
+    		//The following checks for bottom left corner collision:
+    		if ((( playerLeftEdge <= obstacleRightEdge ) && (playerLeftEdge >= obstacleLeftEdge)) && (( playerLowerEdge <= obstacleUpperEdge ) && (playerLowerEdge >= obstacleLowerEdge)))
+    			{
+    				return true;
+    			}
+    		
+    		//The following checks for bottom right corner collision:
+    		else if ((( playerRightEdge <= obstacleRightEdge) && (playerRightEdge >= obstacleLeftEdge)) && (( playerLowerEdge <= obstacleUpperEdge) && (playerLowerEdge >= obstacleLowerEdge)))
+    			{
+    				return true;
+    			}
+    		
+    		else
+    		{
+    			return false;
+    		}
+    }
+	public static void main(String[] args) {
+		launch(args);
+	}
+	
+	/* 
+	 * The following two methods help pull the images needed to display. These methods were taken from:
+	 * https://gamedevelopment.tutsplus.com/tutorials/introduction-to-javafx-for-game-development--cms-23835
+	 */
+	
+    private static void loadGraphics()
+    {
+    		background = new Image(getResource("Lockers.jpeg"));
+        chair = new Image(getResource("OfficeChair.png"));
+        obstacle = new Image(getResource("Backpack.png"));
+        life = new Image(getResource("Wheels.png"));
+    }
+
+    private static String getResource(String filename)
+    {
+        return Main.class.getResource(filename).toString();
+    }
+    
+	public void start(Stage primaryStage) throws Exception
+	{
+	    loadGraphics();
+	    
+		Group root = new Group();
+		Scene scene = new Scene(root);
+		Canvas canvas = new Canvas(width, height);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		
+		long startNanoTime = System.nanoTime();
+		
+		new AnimationTimer()
+		{
+			
+			public void handle(long currentNanoTime)
+			{
+				double t = ( currentNanoTime - startNanoTime ) / 900000000.0;
+				
+				scene.setOnKeyPressed( new EventHandler<KeyEvent>()
+				{
+					@Override
+					public void handle(KeyEvent event) 
+					{
+						if ((event.getCode().toString() == "UP") || (event.getCode().toString() == "W") || (event.getCode().toString() == "SPACE"))
+						{
+							// WILL REPLACE LATER ON FOR A PATH ANIMATION THAT JUMPS
+							yPlayer = 50;
+						}
+					}
+				}
+				);
+				
+				scene.setOnKeyReleased( new EventHandler<KeyEvent>()
+				{
+					@Override
+					public void handle(KeyEvent event)
+					{
+						yPlayer = 290;
+					}
+				}
+				);
+				
+				xObstacle -= t;
+				
+				if( xObstacle <= -200 )
+				{
+					xObstacle += 1100;
+					// t -= t;
+				}
+				
+				gc.drawImage(background, 0, 0);
+				gc.drawImage(chair, xPlayer, yPlayer);
+				gc.drawImage(obstacle, xObstacle, yObstacle);
+				gc.drawImage(life, 750, 10);
+				if( hasHit() == true)
+				{
+					System.out.println("HIT");
+				}
+			}
+		}.start();
+		
+		root.getChildren().add(canvas);
+		primaryStage.setTitle("HIS RIGHTFUL PLACE");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+	}
+}
