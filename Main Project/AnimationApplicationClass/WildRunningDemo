@@ -139,9 +139,6 @@ public class MainGUIApplication extends Application
 	// certain in game frames. Runs at 60fps.
 	GameTimer mainTimer = new GameTimer();
 	
-	//Start the GameTimer so events can begin firing.
-	mainTimer.startGameTimer();
-	
 	// Update screen and check for collisions once every 1 frame.
      	mainTimer.addPersistentEvent(1, new EventHandler<ActionEvent>() {
 		public void handle(ActionEvent event){
