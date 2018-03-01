@@ -1,8 +1,7 @@
-package application;
-	
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -11,7 +10,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
-public class Main extends Application 
+public class MainGUIApplication extends Application 
 {
 	private int amountOfLives = 4;
 	
@@ -26,6 +25,10 @@ public class Main extends Application
 	
 	private double xObstacle = 900;
 	private double yObstacle = 450;
+
+    // How much to adjust position of obstacle
+    // each frame.
+    private double positionAdjustmentFactor = 10;
 	
 	final double lengthObstacle = 100;
 	final double heightObstacle = 125;
@@ -96,7 +99,7 @@ public class Main extends Application
 
     private static String getResource(String filename)
     {
-        return Main.class.getResource(filename).toString();
+        return MainGUIApplication.class.getResource(filename).toString();
     }
     
 	public void start(Stage primaryStage) throws Exception
@@ -108,67 +111,70 @@ public class Main extends Application
 		Canvas canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
-		long startNanoTime = System.nanoTime();
-		
-		new AnimationTimer()
+	        				
+	scene.setOnKeyPressed( new EventHandler<KeyEvent>(){
+		@Override
+		public void handle(KeyEvent event) 
 		{
-			
-			public void handle(long currentNanoTime)
+		    if ((event.getCode().toString() == "UP") ||
+			(event.getCode().toString() == "W") ||
+			(event.getCode().toString() == "SPACE"))
 			{
-				double t = ( currentNanoTime - startNanoTime ) / 900000000.0;
-				
-				scene.setOnKeyPressed( new EventHandler<KeyEvent>()
-				{
-					@Override
-					public void handle(KeyEvent event) 
-					{
-						if ((event.getCode().toString() == "UP") || (event.getCode().toString() == "W") || (event.getCode().toString() == "SPACE"))
-						{
-							// WILL REPLACE LATER ON FOR A PATH ANIMATION THAT JUMPS
-							yPlayer = 50;
-						}
-					}
-				}
-				);
-				
-				scene.setOnKeyReleased( new EventHandler<KeyEvent>()
-				{
-					@Override
-					public void handle(KeyEvent event)
-					{
-						yPlayer = 290;
-					}
-				}
-				);
-				
-				xObstacle -= t;
-				
-				if( xObstacle <= -200 )
-				{
-					xObstacle += 1100;
-					// t -= t;
-				}
-				
-				gc.drawImage(background, 0, 0);
-				gc.drawImage(chair, xPlayer, yPlayer);
-				gc.drawImage(obstacle, xObstacle, yObstacle);
-				
-				for( int i = amountOfLives - 1; i >= 0; i-- )
-					gc.drawImage(life, 650 + (i*50), 10);
-				
-				if( hasHit() == true)
-				{
-					xObstacle += 1100;
-					amountOfLives -= 1;
-				}
-				
-				if( amountOfLives == 0)
-				{
-					System.exit(0);
-				}
+			    // WILL REPLACE LATER ON FOR A PATH ANIMATION THAT JUMPS
+			    yPlayer = 50;
 			}
-		}.start();
-		
+		}
+	    }
+	    );
+				
+	scene.setOnKeyReleased( new EventHandler<KeyEvent>(){
+		@Override
+		public void handle(KeyEvent event)
+		{
+		    yPlayer = 290;
+		}
+	    });
+	
+	// Initialize timer to generate events at
+	// certain in game frames. Runs at 60fps.
+	GameTimer mainTimer = new GameTimer();
+	
+	//Start the GameTimer so events can begin firing.
+	mainTimer.startGameTimer();
+	
+	// Update screen and check for collisions once every 1 frame.
+     	mainTimer.addPersistentEvent(1, new EventHandler<ActionEvent>() {
+		public void handle(ActionEvent event){
+		    xObstacle -= positionAdjustmentFactor;
+				
+		    if( xObstacle <= -200 )
+			{
+			    xObstacle += 1100;
+			    // positionAdjustmentFactor -= positionAdjustmentFactor;
+			}
+				
+		    gc.drawImage(background, 0, 0);
+		    gc.drawImage(chair, xPlayer, yPlayer);
+		    gc.drawImage(obstacle, xObstacle, yObstacle);
+
+		    for( int i = amountOfLives - 1; i >= 0; i-- )
+			gc.drawImage(life, 650 + (i*50), 10);
+				
+		    if( hasHit() == true)
+			{
+			    xObstacle += 1100;
+			    amountOfLives -= 1;
+			}
+				
+		    if( amountOfLives == 0)
+			{
+			    System.exit(0);
+			}
+		}
+	    });
+
+	mainTimer.startGameTimer();
+
 		root.getChildren().add(canvas);
 		primaryStage.setTitle("HIS RIGHTFUL PLACE");
 		primaryStage.setScene(scene);
