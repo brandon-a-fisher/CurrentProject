@@ -1,95 +1,248 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 
-import javafx.animation.ParallelTransition;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 
+import java.util.ArrayList;
 import javafx.util.Duration;
+import java.util.Scanner;
 
-// Version 3
-// 1. Made framerate 100fps to deal with decimal inaccuracy so we deal with only
-//    whole numbers.
-// 2. Made currentFrame instance variable long so it can hold huge integers.
-// 3. added addLimitedEvent method to add an event that fires consistently until
-//    a certain period in seconds elapses.
-// 4. Added game timer pause and stop methods.
+// Version 4
+// 1. Updated comments and javadoc.
+// 2. Added seconds, minutes, and gameClock instance variables, and updated
+//    implementation to incorporate them.
+// 3. Added a parseTimeStamp() method to parse time stamps in format 00:00:00;
+//    minutes:seconds:frames, and return a number of frames.
+// 4. Updated addEvent methods to incorporate timestamps as arguments, changed
+//    parameter names, and added start and end parameters.
+// 5. Removed Parallel transition instance object as it was causing too many issues
+//    to count, and replaced with a list to iterate timers to start them.
+// 6. Fixed implementation for addLimitedEvent and addPersistentEvent to simplify.
+// 7. Put frameCounter in charge of controlling when timers should be stopped.
+// 8. Removed useless getframesPerSecond method.
 
 /**
- * An of instance of this class creates a group of timers that persistently fire
- * EventHandler action events at specified frame intervals--based on  a game running 
- * at 100fps. All timers run parallel, and only a masterTimer, in which all
- * the timers are stored, has to be started to begin firing events.
+ * An of instance of this class is a masterTimer that runs at 100fps, designed to fire events
+ * at specific points during the game. Events added to this timer will be fired at selected
+ * frame intervals, either indefinitely or for a limited time; meaning they'll stop firing after 
+ * reaching a chosen time stamp on the game clock. A delay can also be set to prevent an event from 
+ * firing before a specified period of time. Arguments involving time need to be given as Strings in
+ * the format 00:00:00; minutes:seconds:frames.
  */
 public class GameTimer{
 
-    // Set it to 100 so 1 frame is 10ms; therefore we deal with only whole numbers.
+    // Frames per second is set to 100 so 1 frame == 10ms; therefore we deal with only whole numbers when
+    // making calculations, and drift is prevented. THE IMPLEMENTATION ONLY WORKS IF FRAMESPERSECOND IS SET
+    // TO 100.
     private static final int framesPerSecond = 100; 
                                               
-    //Duration is in milliseconds. 1000 milliseconds is 1 second, so 1 frame is 10ms.
+    //Duration is in milliseconds.
     private static final double singleFrameDurationMilli = 1000/framesPerSecond;
 
-    // Frames elapsed after mainTimer starts. Stores int value of current frame.
-    // Starts at frame one.
+    // Units elapsed after gameClock starts. Used to populate gameClock.
     private long currentFrame;
+    private long currentSecond;
+    private long currentMinute;
 
-    // The following timer will start counting frames once masterTimer starts,
-    // updating the current frame count in currentFrame.
+    // The current timestamp of the gameClock. Is updated each frame by the frameCounter.
+    // Is in format minutes:seconds:frames.
+    private String gameClock = "00:00:00";
+
+    // The following timer will start counting frames once masterTimer starts;
+    // updating the gameClock and frameCount. It also stops timers when they
+    // reach the frame they were set to stop when they were created. Frame count
+    // counts the total number of frames elapsed.
     private Timeline frameCounter;
     private KeyFrame frameCounterEvent;
-    
-    // Any new Timelines created with addPersistentEvent()
-    // become children of masterTimer. When we start
-    // masterTimer, the children Timelines run in parallel,
-    // firing events whenever they reach the end of their KeyFrame,
-    // then restarting the cycle.
-    private ParallelTransition masterTimer;
+    private long frameCount;
+
+    // Any timers created are added to timerList. We use method startGameTimer()
+    // to start all of the timers in the list at the same time, and stopGameTimer()
+    // to stop all of the timers at once. timerListWhenToStop controls when to stop
+    // timers by storing frame values to stop them in indexes corresponding to indexes
+    // in timerList.
+    private ArrayList<Timeline> timerList;
+    private ArrayList<Long> timerListWhenToStop;
 
     /**
      * Default constructor doesn't take any arguments.
      */
     public GameTimer(){
-	currentFrame = 1; // Starts at 1 not 0, otherwise we'll always be a frame behind.
-      	masterTimer = new ParallelTransition();
-
-	// Prepare frameCounter to update currentFrame every duration of one frame.
+	currentFrame = 0; 
+	currentSecond = 0;
+	currentMinute = 0;
+	gameClock = "00:00:00";
+	
+	timerList = new ArrayList<Timeline>(10);
+	timerListWhenToStop = new ArrayList<Long>(10);
+	
+	// Prepare frameCounter to update gameClock and frameCount, and check if timers need to be stopped.
+	// Does this every frame.
 	frameCounter = new Timeline();
+	frameCount = 0;
 	frameCounterEvent = new KeyFrame(Duration.millis(singleFrameDurationMilli), new EventHandler<ActionEvent>(){
 		public void handle(ActionEvent event){
-		    //System.out.println(getCurrentFrame());
+		    // Stop any timers that have reached their
+		    // critical frame.
+		    for(int index = 0;index<timerList.size();index++){
+			if(timerListWhenToStop.get(index) == frameCount){
+			    timerList.get(index).stop();
+			    //FORDEBUGGING Prints out timeStamp when a timer
+			    //stops
+			    //System.out.println(getGameClock());
+			}
+		    }
+		    // Update gameClock and frameCount
 		    currentFrame++;
+		    frameCount++;
+		    if(currentFrame == framesPerSecond){
+			currentFrame = 0;
+			currentSecond++;
+			if(currentSecond == 60){
+			    currentSecond = 0;
+			    currentMinute++;
+			}			
+		    }
+		    gameClock = currentMinute+":"+currentSecond+":"+currentFrame;
+		    //FOR DEBUGGING. Prints out clock in terminal every frame.
+		    //System.out.println(getGameClock());
+		    //System.out.println(frameCount);
 		}
 	    });
 	frameCounter.setCycleCount(Timeline.INDEFINITE);
 	frameCounter.getKeyFrames().add(frameCounterEvent);
-	masterTimer.getChildren().add(frameCounter);
+
+	// Add frameCounter to timerList so it starts with
+	// other timers when startGameTimer()is called.
+	timerList.add(frameCounter);
+	timerListWhenToStop.add((long)-1);
     }
     
     /**
+     * Returns a String representing the current timestamp of the gameClock.
+     *
+     * @return String of current timestamp of gameClock in format 00:00:00; minutes:seconds:frames.
+     */
+    public String getGameClock(){
+	return gameClock;
+    }
+    
+    /**
+      * Adds a timer to the masterTimer that will fire an event that was given as 
+      * an argument every frame interval until the masterTimer is stopped. A timeStamp
+      * must be given to set the start and interval; in the format 00:00:00; minutes:seconds:frames.
+      *
+      *@param interval
+      *           String timestamp representing the frame interval that elapses before every
+      *           firing of the event; in the format 00:00:00; minutes:seconds:frames
+      *
+      *@param start
+      *           String timestamp representing which time on the gameClock you'd like the
+      *           event to start; in the format 00:00:00; minutes:seconds:frames.
+      *
+      *@param event
+      *           The action event to fire.
+      */
+    public void addPersistentEvent(String start, String interval,  EventHandler<ActionEvent> event){
+	//Parse timestamps.
+	long intervalInFrames = GameTimer.parseTimeStamp(interval);
+	long startInFrames = GameTimer.parseTimeStamp(start);
+
+	// Create subTimer and ensure it cycles until we stop it. 
+	// Set length of a cycle based on intervalInFrames. Event
+	// will fire at end of each cycle. Also set delay, and event
+	// to fire.
+	Timeline timer = new Timeline();
+	timer.setCycleCount(Timeline.INDEFINITE);
+	timer.setDelay(Duration.millis((long)singleFrameDurationMilli*startInFrames));
+	timer.getKeyFrames().add(new KeyFrame(Duration.millis((long)singleFrameDurationMilli*intervalInFrames),event));
+
+	//Add timer to timerList,and set stop value to -1, because
+	//it runs persistently.
+	timerList.add(timer);
+	timerListWhenToStop.add((long)-1);
+    }
+
+    /**
+      * Adds a timer to the masterTimer that will fire an event that was given as 
+      * an argument every frame interval until a certain period of time has elapsed. 
+      * A timeStamp must be given to set the start, end, and interval; in the format 
+      * 00:00:00; minutes:seconds:frames.
+      *
+      *@param interval
+      *           String timestamp representing the frame interval that elapse before every
+      *           firing of the event; in the format 00:00:00; minutes:seconds:frames
+      *
+      *@param start
+      *           String timestamp representing which time on the gameClock you'd like the
+      *           event to start firing every interval; in the format 00:00:00; minutes:seconds:frames. 
+      *
+      *@param end
+      *           String timestamp representing which time on the gameClock you'd like the event
+      *           to stop firing every frame interval; in the format 00:00:00; minutes:seconds:frames.
+      *
+      *@param event
+      *           The action event to fire.
+      */
+    public void addLimitedEvent(String start, String end, String interval, EventHandler<ActionEvent> event){
+	// Create timer as a persistent timer first, and then grab it from timerList.
+	addPersistentEvent(start,interval,event);
+	int timerIndex = timerList.size()- 1;
+	Timeline subTimer = timerList.get(timerIndex);
+
+	// Figure out how many frames before the timer needs
+	// to stop.
+	long framesBeforeStart = GameTimer.parseTimeStamp(start);
+	long framesBeforeEnd = GameTimer.parseTimeStamp(end);
+
+	// Change the value in the list to the number of frames that need
+	// to elapse before you want the frameCounter to stop this timer.
+	timerListWhenToStop.set(timerIndex,framesBeforeEnd);
+    }
+     
+    /**
+     * Starts all the timers at the same time; a timer delaying
+     * only if a delay is set when adding a new one.
+     */
+    public void startGameTimer(){
+	for(Timeline timer:timerList){
+	    if(frameCount == 0){
+	    timer.play();
+	    }else{
+		System.out.println("ERROR: Timers couldn't be started, because of potential drift.");
+		System.exit(0);
+	    }
+	}
+    }
+    
+    /**
+     * Stops all the timers.
+     */
+    public void stopGameTimer(){
+	for(Timeline timer:timerList){
+	    timer.stop();
+	    //FOR DEBUGGING
+	    System.out.println(getGameClock());
+	}
+    }
+        
+    /**
      * Returns a double representing, in milliseconds, the duration of a single
-     * frame of a GameTimer object.
+     * frame of an instance of the GameTimer class.
      * 
-     *@return an double representing, in milliseconds, the duration of a single frame.
+     *@return a double representing, in milliseconds, the duration of a single frame.
      */
     public static double getFrameDuration(){
 	return singleFrameDurationMilli;
     }
-    
+        
     /**
-     * Returns an integer representing the number of fps of a GameTimer object.
-     *
-     *@return a double representing the number of fps of a GameTimer object.
-     */
-    public static int getFramesPerSecond(){
-	return framesPerSecond;
-    }
-    
-    /**
-     * Static method that converts a number of seconds to frames at specified fps.
+     * Static method that converts a number of seconds to frames at specified framesPerSecond
      *
      *
-     *@param integer representing a number of seconds.
+     *@param numberOfSec integer representing a number of seconds.
      *@return integer representing a number of frames input seconds translates to.
      */
     public static int convertSecondsToFrames(int numberOfSec){
@@ -100,7 +253,7 @@ public class GameTimer{
     }
     
     /**
-     * Static method that converts a number of minutes to frames at specified fps.
+     * Static method that converts a number of minutes to frames at specified framesPerSecond.
      *
      *@param integer representing a number of minutes.
      *@return integer representing a number of frames input minutes translates to.
@@ -111,110 +264,74 @@ public class GameTimer{
 	    frames = numberOfMinutes*60*framesPerSecond;
 	return frames;
     }
-
+        
     /**
-     * Returns an integer representing the current frame of the
-     * mainTimer.
+     * Takes a String representing a time stamp in the format 00:00:00;
+     * minutes:seconds:frames, and converts it into a number of frames
+     * based on the fps the GameTimer class is set to (100fps). Returns
+     * a long value of that number of frames.
+     *
+     *@param timeStamp
+     *            String representing a timeStamp in the format 00:00:00;
+     *            minutes:seconds:frames.
+     *
+     *@return A long corresponding to the number of frames the timeStamp
+     *        converts to.
      */
-    public long getCurrentFrame(){
-	return currentFrame;
+    public static long parseTimeStamp(String timeStamp){	
+	int firstColon = timeStamp.indexOf(58);
+	int secondColon = timeStamp.indexOf(58,firstColon+1);
+
+	//Make sure there are characters following and before each colon, and that there
+	//are at least two colons in the timeStamp.
+	if(firstColon == -1  || firstColon == 0 || 
+	   secondColon == -1 || secondColon == (timeStamp.length() - 1)||
+	   secondColon == firstColon+1){
+	    System.out.println("ERROR: Could not parse timeStamp. Colons incorrectly placed.");
+	    System.exit(0);
+	}
+
+	//Get minutes,seconds and frames using colon indexes to retrieve subStrings.
+	String minutes = timeStamp.substring(0,firstColon);
+	String seconds = timeStamp.substring(firstColon+1,secondColon);
+	String frames = timeStamp.substring(secondColon+1,(timeStamp.length()));
+	int numMinutes = 0;
+	int numSeconds = 0;
+	int numFrames = 0;
+	Scanner checkMinutes = new Scanner(minutes);
+	Scanner checkSeconds = new Scanner(seconds);
+	Scanner checkFrames = new Scanner(frames);
+
+	//Make sure values input are integers.
+	if(!(checkMinutes.hasNextInt())||
+	   !(checkSeconds.hasNextInt())||
+	   !(checkFrames.hasNextInt())){
+	    System.out.println("ERROR: Could not parse timeStamp. One or more values are not" +
+                               "integers");
+	    System.exit(0);
+	}
+	// If they are get those integers.
+	else{
+	    numMinutes = Integer.parseInt(minutes);
+	    numSeconds = Integer.parseInt(seconds);
+	    numFrames = Integer.parseInt(frames);
+	}
+	//Make sure values input are in the correct range.
+	if(numMinutes < 0 ||
+	   numSeconds < 0 || numSeconds >= 60 ||
+	   numFrames < 0 || numFrames >= framesPerSecond){
+	    System.out.println("ERROR: Could not parse timeStamp. One or more values is too large" +
+                               " or negative");
+	    System.exit(0);
+	}
+	// Convert timeStamp into frames.
+	long totalFrames = GameTimer.convertMinutesToFrames(numMinutes)+
+	    GameTimer.convertSecondsToFrames(numSeconds)+numFrames;
+	return totalFrames;
     }
     
-    /**
-      * Adds a newEventTimer to the masterTimer that will fire a selected event at 
-      * every specified frame interval.
-      *
-      *@param fireEventEveryFrames
-      *                Integer representing the frame interval before the event is fired.
-      *@param event
-      *         An event that takes place when the frame interval has ended.
-      */
-    public void addPersistentEvent(int fireEventEveryFrames, EventHandler<ActionEvent> event){
-	// Test to make sure number of frames is >= 0
-	if (fireEventEveryFrames <= 0){
-	    System.out.println("ERROR: Parameter that takes Number of frames before firing an event"+
-			       "when using GameLoopTimer.addTimeline, requires an argument" +
-			       "that's a positive integer greater than 0. " + fireEventEveryFrames +
-			       " is not a valid argument.");
-	    System.exit(0);
-	}
-
-	// Create newEventTimer and ensure it cycles until we stop it.
-	Timeline newEventTimer = new Timeline();
-      	newEventTimer.setCycleCount(Timeline.INDEFINITE);
-
-	//Keyframe that sets length of cycle.
-	newEventTimer.getKeyFrames().add(new KeyFrame(Duration.millis(singleFrameDurationMilli*fireEventEveryFrames),event));
-
-	//Place timeline in masterTimeline.
-	masterTimer.getChildren().add(newEventTimer);
-    }
-
-    /**
-      * Adds a newEventTimer to the masterTimer that will fire a selected event at 
-      * every specified frame interval, but only for a specified period of time in
-      * seconds.
-      *
-      *@param fireEventEveryFrames
-      *                Integer representing the frame interval before the event is fired.
-      *@param secondsSeriesLasts
-      *                Integer representing how long event will consitently fire for.
-      *@param event
-      *         An event that takes place when the frame interval has ended.
-      */
-
-    public void addLimitedEvent(int fireEventEveryFrames,int secondsSeriesLasts, EventHandler<ActionEvent> event){
-	// Test to make sure number of seconds is >= 0
-	if (secondsSeriesLasts <= 0){
-	    System.out.println("ERROR: Parameter that takes Number of seconds before ending an event series"+
-			       "when using GameLoopTimer.addLimitedEvent, requires an argument" +
-			       "that's a positive integer greater than 0. " + secondsSeriesLasts +
-			       " is not a valid argument.");
-	    System.exit(0);
-	}
-	
-	// Create event as persistent event first.
-	addPersistentEvent(fireEventEveryFrames,event);
-	
-	// Get event that was just added to masterTimer.
-	int eventIndex = masterTimer.getChildren().size()- 1;
-	Animation newEventTimer = masterTimer.getChildren().get(eventIndex);
-
-	int timerCycleDuration = (int)singleFrameDurationMilli*fireEventEveryFrames;
-	int numberOfCycles = (secondsSeriesLasts*framesPerSecond)/(timerCycleDuration/10);
-
-	newEventTimer.setCycleCount(numberOfCycles);
-
-	//FOR DEBUGGING
-	newEventTimer.setOnFinished(new EventHandler<ActionEvent>(){
-		public void handle(ActionEvent event){
-		    //It prints the frame after the animation
-		    //ends, so we subtract 1 to get frame when
-		    //it ended.
-		    //System.out.println(getCurrentFrame()- 1);   
-		}
-	//FOR DEBUGGING
-	//System.out.println(timerCycleDuration);
-	//System.out.println(numberOfCycles);
-
-	    });	
-    }
-     
-    /**
-     * Starts the masterTimer, and events begin to fire at specified intervals.
-     */
-    public void startGameTimer(){	
-	masterTimer.play();
-    }
-
-    public void stopGameTimer(){
-	masterTimer.stop();
-    }
-
-    public void pauseGameTimer(){
-	masterTimer.pause();
-    }
-
     public static void main(String[]args){
+	GameTimer testTimer = new GameTimer();
+	System.out.println(GameTimer.parseTimeStamp("60:43:26"));
     }
 }
