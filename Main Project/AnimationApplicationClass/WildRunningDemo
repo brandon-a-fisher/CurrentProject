@@ -139,8 +139,10 @@ public class MainGUIApplication extends Application
 	// certain in game frames. Runs at 60fps.
 	GameTimer mainTimer = new GameTimer();
 	
-	// Update screen and check for collisions once every 1 frame.
-     	mainTimer.addPersistentEvent(1, new EventHandler<ActionEvent>() {
+	// Update screen and check for collisions. Set start to 0 seconds of gameClock,
+	// and set interval to 1 frame. Therefore event will fire indefinitely, once
+	// every frame, starting at time 0.
+     	mainTimer.addPersistentEvent("00:00:00","00:00:01",new EventHandler<ActionEvent>() {
 		public void handle(ActionEvent event){
 		    xObstacle -= positionAdjustmentFactor;
 				
