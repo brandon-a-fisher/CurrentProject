@@ -1,9 +1,10 @@
-
 public class Player
 {
 	private int playerHealth = 5;
 	private int xValue = 0;
 	private int yValue = 0;
+	private int lengthPlayer = 150;
+	private int heightPlayer = 269;
 
 	public boolean IsAlive()
 	{
@@ -29,6 +30,16 @@ public class Player
 	public int getYPosition()
 	{
 		return yValue;
+	}
+
+	private int getLengthPlayer()
+	{
+		return lengthPlayer;
+	}
+
+	private int getHeightPlayer()
+	{
+		return heightPlayer;
 	}
 
 	private void TakeDamage()
