@@ -1,21 +1,23 @@
 public class Collectible extends Items
 {
-	private static int generalHeight = 1;
-	private static int generalLength = 1;
+	// private static int length = 1;
+	// private static int height = 1;
 
 	public Collectible( int YValue, int height, int length )
 	{
-		super( YValue, height, length );
+		super( YValue, length, height );
 	}
 
 	public Collectible( int YValue )
 	{
-		super( YValue, generalHeight, generalLength );
+		int length = 1;
+		int height = 1;
+		super( YValue, length, height );
 	}
 
-	public void collision( Items[] itemArray, Player player )
-	{
-		if ( super.checkHit(itemArray, player) )
-			player.Heal();
-	}
+	// public void collision( Items[] itemArray, Player player )
+	// {
+	// 	if ( super.checkHit(itemArray, player) )
+	// 		player.Heal();
+	// }
 }
