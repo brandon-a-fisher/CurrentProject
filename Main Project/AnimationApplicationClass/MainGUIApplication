@@ -12,16 +12,10 @@ import javafx.stage.Stage;
 
 public class MainGUIApplication extends Application 
 {
-	private int amountOfLives = 4;
+	Player player1 = new Player(10, 290, 150, 269, 5);
 	
 	static int width = 864;
 	static int height = 575;
-	
-	private double xPlayer = 10;
-	private double yPlayer = 290;
-	
-	final double lengthPlayer = 150;
-	final double heightPlayer = 269;
 	
 	private double xObstacle = 900;
 	private double yObstacle = 450;
@@ -45,9 +39,9 @@ public class MainGUIApplication extends Application
     		double obstacleUpperEdge = yObstacle;
     		double obstacleLowerEdge = (yObstacle + heightObstacle);
     		
-    		double playerLeftEdge = xPlayer;
-    		double playerRightEdge = (xPlayer + lengthPlayer);
-    		double playerLowerEdge = (yPlayer + heightPlayer);
+    		double playerLeftEdge = player1.getXPosition();
+    		double playerRightEdge = (player1.getXPosition() + player1.getPlayerLength());
+    		double playerLowerEdge = (player1.getYPosition() + player1.getPlayerHeight());
 
     		if ((playerLeftEdge <= obstacleRightEdge) && (playerLeftEdge >= obstacleLeftEdge))
     		{
@@ -91,7 +85,7 @@ public class MainGUIApplication extends Application
 	
     private static void loadGraphics()
     {
-    		background = new Image(getResource("Lockers.jpeg"));
+    	background = new Image(getResource("Lockers.jpeg"));
         chair = new Image(getResource("OfficeChair.png"));
         obstacle = new Image(getResource("Backpack.png"));
         life = new Image(getResource("Wheels.png"));
@@ -121,7 +115,7 @@ public class MainGUIApplication extends Application
 			(event.getCode().toString() == "SPACE"))
 			{
 			    // WILL REPLACE LATER ON FOR A PATH ANIMATION THAT JUMPS
-			    yPlayer = 50;
+			    player1.setYPosition(50);
 			}
 		}
 	    }
@@ -131,7 +125,7 @@ public class MainGUIApplication extends Application
 		@Override
 		public void handle(KeyEvent event)
 		{
-		    yPlayer = 290;
+		    player1.setYPosition(290);
 		}
 	    });
 	
@@ -153,19 +147,19 @@ public class MainGUIApplication extends Application
 			}
 				
 		    gc.drawImage(background, 0, 0);
-		    gc.drawImage(chair, xPlayer, yPlayer);
+		    gc.drawImage(chair, player1.getXPosition(), player1.getYPosition());
 		    gc.drawImage(obstacle, xObstacle, yObstacle);
 
-		    for( int i = amountOfLives - 1; i >= 0; i-- )
-			gc.drawImage(life, 650 + (i*50), 10);
+		    for( int i = player1.getPlayerHealth() - 1; i >= 0; i-- )
+			gc.drawImage(life, 810 - (i*50), 10);
 				
 		    if( hasHit() == true)
 			{
 			    xObstacle += 1100;
-			    amountOfLives -= 1;
+			    player1.takeDamage();
 			}
 				
-		    if( amountOfLives == 0)
+		    if( player1.getPlayerHealth() == 0)
 			{
 			    System.exit(0);
 			}
