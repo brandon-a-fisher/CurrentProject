@@ -55,18 +55,23 @@ public class Player
 		return height;
 	}
 
-	public void setPlayerAvatar(Image newAvatar)
-	{
-		this.avatar = newAvatar;
-	}
-
-	public void setXPosition(int xPos)
+	public void setXPosition(double xPos)
 	{
 		xValue = xPos;
 	}
 
-	public void setYPosition(int yPos)
+	public void setYPosition(double yPos)
 	{
 		yValue = yPos;
+	}
+	
+	public void setPlayerLength(double newLength)
+	{
+		length = newLenght;
+	}
+	
+	public void setPlayerHeight(double newHeight)
+	{
+		height = newHeight;
 	}
 }
