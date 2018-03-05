@@ -69,34 +69,4 @@ public class Player
 				break;
 		}
 	}
-	public void checkObjectCollision(AnimationApplication gameEngine)
-	{
-		Collectible[] activeCollectibleList = gameEngine.getActiveCollectibleList();
-		Obstacle[] activeObstacleList = gameEngine.getActiveObstacleList();
-		for(int index = 0; index < activeObstacleList.length; index++)
-		{
-			if(activeObstacleList[index] != null)
-			{
-				if((yValue == activeObstacleList[index].getYPosition()) &&
-			  	xValue == activeObstacleList[index].getXPosition())
-				{
-					TakeDamage();
-					gameEngine.deleteObstacle(index);
-				}
-			}
-		}
-
-		for(int index = 0; index < activeCollectibleList.length; index++)
-		{
-			if(activeCollectibleList[index] != null)
-			{
-				if((yValue == activeCollectibleList[index].getYPosition()) &&
-				  xValue == activeCollectibleList[index].getXPosition())
-				{
-					Heal();
-					gameEngine.deleteCollectible(index);
-				}
-			}
-		}
-	}
 }
