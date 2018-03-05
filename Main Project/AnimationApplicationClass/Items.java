@@ -1,18 +1,25 @@
 public class Items {
-	private boolean isAlive = true;
+	private boolean isAlive;
 
-	private int xValue = 30;
-	private int yValue;
+	private double xValue;
+	private double yValue;
 
-	private int length;
-	private int height;
+	private double length;
+	private double height;
 
-	public Items( int newYValue, int newLength, int newHeight )
+	private char type;
+
+	public Items( double newXValue, double newYValue, double newLength, double newHeight, char type )
 	{
+		isAlive = true;
+
+		xValue = newXValue;
 		yValue = newYValue;
 
 		length = newLength;
 		height = newHeight;
+
+		this.type = Character.toLowerCase(type);
 	}
 
 	public void moveItem()
@@ -20,22 +27,22 @@ public class Items {
 		xValue--;
 	}
 
-	public void setXPosition( int newXValue )
+	public void setXPosition( double newXValue )
 	{
 		xValue = newXValue;
 	}
 
-	public int getXPosition()
+	public double getXPosition()
 	{
 		return xValue;
 	}
 
-	public void setYPosition( int newYValue )
+	public void setYPosition( double newYValue )
 	{
 		yValue = newYValue;
 	}
 
-	public int getYPosition()
+	public double getYPosition()
 	{
 		return yValue;
 	}
