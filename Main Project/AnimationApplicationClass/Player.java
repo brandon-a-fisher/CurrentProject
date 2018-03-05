@@ -1,42 +1,43 @@
+import javafx.scene.image.Image;
 
 public class Player
 {
 	private int playerHealth = 5;
-	private int xValue = 0;
-	private int yValue = 0;
+	private double xValue = 0;
+	private double yValue = 0;
+	private double length = 0;
+	private double height = 0;
 
-	public boolean IsAlive()
+	public Player(double x, double y, double newLength, double newHeight, int pHealth)
 	{
-		if(playerHealth<=0)
-		{
-			return false;
-		}
-		else
-		{
-			return true;
-		}
+		playerHealth = pHealth;
+		xValue = x;
+		yValue = y;
+		length = newLength;
+		height = newHeight;
 	}
+
 	public int getPlayerHealth()
 	{
 		return playerHealth;
 	}
 
-	public int getXPosition()
+	public double getXPosition()
 	{
 		return xValue;
 	}
 
-	public int getYPosition()
+	public double getYPosition()
 	{
 		return yValue;
 	}
 
-	private void TakeDamage()
+	public void takeDamage()
 	{
 		playerHealth -= 1;
 	}
 
-	public void Heal()
+	public void heal()
 	{
 		if(playerHealth < 5)
 		{
@@ -44,29 +45,28 @@ public class Player
 		}
 	}
 
-	public void Move(char move)
+	public double getPlayerLength()
 	{
+		return length;
+	}
 
-		switch(move)
-		{
-			case 'w':
-				if(this.yValue < 10)
-				{
-					this.yValue = 10;
-				}
-				break;
-			case 's':
-				if(this.yValue > 0)
-				{
-					this.yValue = 0;
-				}
-				break;
-			case 'd':
-				if(this.yValue > 0)
-				{
-					this.yValue = 0;
-				}
-				break;
-		}
+	public double getPlayerHeight()
+	{
+		return height;
+	}
+
+	public void setPlayerAvatar(Image newAvatar)
+	{
+		this.avatar = newAvatar;
+	}
+
+	public void setXPosition(int xPos)
+	{
+		xValue = xPos;
+	}
+
+	public void setYPosition(int yPos)
+	{
+		yValue = yPos;
 	}
 }
