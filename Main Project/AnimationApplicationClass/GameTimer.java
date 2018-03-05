@@ -10,21 +10,11 @@ import javafx.util.Duration;
 import java.util.Scanner;
 
 // Version 4
-// 1. Updated comments and javadoc.
-// 2. Added seconds, minutes, and gameClock instance variables, and updated
-//    implementation to incorporate them.
-// 3. Added a parseTimeStamp() method to parse time stamps in format 00:00:00;
-//    minutes:seconds:frames, and return a number of frames.
-// 4. Updated addEvent methods to incorporate timestamps as arguments, changed
-//    parameter names, and added start and end parameters.
-// 5. Removed Parallel transition instance object as it was causing too many issues
-//    to count, and replaced with a list to iterate timers to start them.
-// 6. Fixed implementation for addLimitedEvent and addPersistentEvent to simplify.
-// 7. Put frameCounter in charge of controlling when timers should be stopped.
-// 8. Removed useless getframesPerSecond method.
+// 1. Changed fps to 30fps, as 100fps was necessary for an earlier implementation, but
+//    not anymore, and overkill. Drift issue with doubles solved.
 
 /**
- * An of instance of this class is a masterTimer that runs at 100fps, designed to fire events
+ * An of instance of this class is a masterTimer that runs at 30fps, designed to fire events
  * at specific points during the game. Events added to this timer will be fired at selected
  * frame intervals, either indefinitely or for a limited time; meaning they'll stop firing after 
  * reaching a chosen time stamp on the game clock. A delay can also be set to prevent an event from 
@@ -33,12 +23,10 @@ import java.util.Scanner;
  */
 public class GameTimer{
 
-    // Frames per second is set to 100 so 1 frame == 10ms; therefore we deal with only whole numbers when
-    // making calculations, and drift is prevented. THE IMPLEMENTATION ONLY WORKS IF FRAMESPERSECOND IS SET
-    // TO 100.
-    private static final int framesPerSecond = 100; 
+    // Frames per second is set to 30.
+    private static final int framesPerSecond = 30; 
                                               
-    //Duration is in milliseconds.
+    //Duration is in milliseconds. 1 frame is 1000ms/30.
     private static final double singleFrameDurationMilli = 1000/framesPerSecond;
 
     // Units elapsed after gameClock starts. Used to populate gameClock.
