@@ -67,7 +67,7 @@ public class Player
 	
 	public void setPlayerLength(double newLength)
 	{
-		length = newLenght;
+		length = newLength;
 	}
 	
 	public void setPlayerHeight(double newHeight)

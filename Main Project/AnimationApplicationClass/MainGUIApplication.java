@@ -22,7 +22,7 @@ public class MainGUIApplication extends Application
 
     // How much to adjust position of obstacle
     // each frame.
-    private double positionAdjustmentFactor = 10;
+    private double positionAdjustmentFactor = 30;
 	
 	final double lengthObstacle = 100;
 	final double heightObstacle = 125;
@@ -104,31 +104,9 @@ public class MainGUIApplication extends Application
 		Scene scene = new Scene(root);
 		Canvas canvas = new Canvas(width, height);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
-	        				
-	scene.setOnKeyPressed( new EventHandler<KeyEvent>(){
-		@Override
-		public void handle(KeyEvent event) 
-		{
-		    if ((event.getCode().toString() == "UP") ||
-			(event.getCode().toString() == "W") ||
-			(event.getCode().toString() == "SPACE"))
-			{
-			    // WILL REPLACE LATER ON FOR A PATH ANIMATION THAT JUMPS
-			    player1.setYPosition(50);
-			}
-		}
-	    }
-	    );
-				
-	scene.setOnKeyReleased( new EventHandler<KeyEvent>(){
-		@Override
-		public void handle(KeyEvent event)
-		{
-		    player1.setYPosition(290);
-		}
-	    });
-	
+			        				
+		scene.setOnKeyPressed(new JumpEvent(player1));
+        	
 	// Initialize timer to generate events at
 	// certain in game frames. Runs at 60fps.
 	GameTimer mainTimer = new GameTimer();
