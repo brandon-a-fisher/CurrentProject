@@ -14,8 +14,8 @@ public class MainGUIApplication extends Application
 {
     Player player1 = new Player(10, 290, 150, 269, 5);
 	
-    static int width = 864;
-    static int height = 575;
+    static int canvasWidth = 864;
+    static int canvasHeight = 575;
 	
     private double xObstacle = 900;
     private double yObstacle = 450;
@@ -111,7 +111,7 @@ public class MainGUIApplication extends Application
 	    
 	Group root = new Group();
 	Scene scene = new Scene(root);
-	Canvas canvas = new Canvas(width, height);
+	Canvas canvas = new Canvas(canvasWidth, canvasHeight);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 			        				
 	scene.setOnKeyPressed(playerJump);
