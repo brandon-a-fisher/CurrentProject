@@ -13,32 +13,33 @@ import javafx.stage.Stage;
 public class MainGUIApplication extends Application 
 {
     // Max obstacles and collectibles allowed in game at any point.
-    int maxObstacle = 2;
-    int maxCollectible = 2;
+    private int maxObstacle = 2;
+    private int maxCollectible = 2;
 
     // Controls obstacles and collectible insantiation and deletion.
-    AnimationApplication gameEngine = new AnimationApplication(maxObstacle,maxCollectible);
+    private AnimationApplication gameEngine = new AnimationApplication(maxObstacle,maxCollectible);
 
     // Lists maintaining active obstacle and collectibles so we can retrieve their references.
-    Obstacle[] activeObstacleList = gameEngine.getActiveObstacleList();
-    Collectible[] activeCollectibleList = gameEngine.getActiveCollectibleList();
+    private Obstacle[] activeObstacleList = gameEngine.getActiveObstacleList();
+    private Collectible[] activeCollectibleList = gameEngine.getActiveCollectibleList();
 
-    // Instantiate player.
-    Player player1 = new Player(10, 290, 150, 269, 5);
+    // Instantiations
+    private Player player1 = new Player(10, 290, 150, 269, 5);
+    private Obstacle obstacle = new Obstacle();
 
     // Width and height of canvas.
-    static int width = 864;
-    static int height = 575;
+    private static int canvasWidth = 864;
+    private static int canvasHeight = 575;
 
     // Standard length and height of an obstacle.
-    final double lengthObstacle = 100;
-    final double heightObstacle = 125;
+    private final double lengthObstacle = 100;
+    private final double heightObstacle = 125;
 
     // Images for objects in game.
-    static Image chair;
-    static Image background;
-    static Image obstacle;
-    static Image life;
+    private static Image chair;
+    private static Image background;
+    private static Image obstacle;
+    private static Image life;
 
     // Will act as the main game clock. It is used to fire events at specific intervals, and
     // start events at certain times in the game by referencing timestamps corresponding to the
@@ -50,7 +51,7 @@ public class MainGUIApplication extends Application
     private JumpEvent playerJump = new JumpEvent(player1);
 
     //Text output of what's happening in the game.
-    TextOutput printer = new TextOutput();
+    private TextOutput printer = new TextOutput();
 	
     public void hasHitObstacle()
     {
@@ -152,7 +153,7 @@ public class MainGUIApplication extends Application
 
 	Group root = new Group();
 	Scene scene = new Scene(root);
-	Canvas canvas = new Canvas(width, height);
+	Canvas canvas = new Canvas(canvasWidth, canvasHeight);
 	GraphicsContext gc = canvas.getGraphicsContext2D();
 			        				
 	scene.setOnKeyPressed(playerJump);
