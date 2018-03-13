@@ -25,7 +25,6 @@ public class MainGUIApplication extends Application
 
     // Instantiations
     private Player player1 = new Player(10, 290, 150, 269, 5);
-    private Obstacle obstacle = new Obstacle();
 
     // Width and height of canvas.
     private static int canvasWidth = 864;
